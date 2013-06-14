@@ -1,14 +1,63 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <string-array name="distance_units">
+        <item>km</item>
+        <item>Miles</item>
+    </string-array>
+    <string-array name="distance_units_value">
+        <item>km</item>
+        <item>m</item>
+    </string-array>
+    <string-array name="mileage_units">
+        <item>L/100km</item>
+        <item>km/L</item>
+        <item>mpg (US)</item>
+        <item>mpg (Imp)</item>
+    </string-array>
+    <string-array name="mileage_units_value">
+        <item>lp100km</item>
+        <item>kmpl</item>
+        <item>mpg_us</item>
+        <item>mpg_imp</item>
+    </string-array>
+    <string-array name="volume_units">
+        <item>L</item>
+        <item>US gal</item>
+        <item>Imp gal</item>
+    </string-array>
+    <string-array name="volume_units_value">
+        <item>l</item>
+        <item>gal_us</item>
+        <item>gal_imp</item>
+    </string-array>
+
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
 
-    <string name="action_settings">Settings</string>
     <string name="app_name">Gas Mileage</string>
-    <string name="title_section1">Section 1</string>
-    <string name="title_section2">Section 2</string>
-    <string name="title_section3">Section 3</string>
+    <string name="entry_menu_delete">Delete Entry</string>
+    <string name="entry_menu_edit">Edit Entry</string>
+    <string name="menu_add_vehicle">Add Vehicle</string>
+    <string name="menu_delete_vehicle">Delete Vehicle</string>
+    <string name="menu_edit_vehicle">Edit Vehicle</string>
+    <string name="menu_fill_up">Fill Up</string>
+    <string name="menu_settings">Settings</string>
+    <string name="prefs_summary_distance_units">Units for distances in Kilometres or Miles</string>
+    <string name="prefs_summary_mileage_units">Units to display mileage in</string>
+    <string name="prefs_summary_volume_units">Units for volumes in Litres or Gallons</string>
+    <string name="prefs_title">Settings</string>
+    <string name="prefs_title_distance_units">Distance Units</string>
+    <string name="prefs_title_mileage_units">Mileage units</string>
+    <string name="prefs_title_volume_units">Volume Units</string>
+    <string name="prefs_units_category">Units</string>
+    <string name="stat_avg_mileage">Average mileage</string>
+    <string name="stat_best_mileage">Best mileage</string>
+    <string name="stat_last_mileage">Last mileage</string>
+    <string name="stat_worst_mileage">Worst mileage</string>
+    <string name="vehicle_entries">Fillups</string>
+    <string name="vehicle_statistics">Statistics</string>
+    <string name="vehicle_unknown">Unknown</string>
 
     <style name="AppBaseTheme" parent="android:Theme.Light">
         <!--

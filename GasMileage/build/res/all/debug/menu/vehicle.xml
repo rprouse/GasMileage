@@ -1,6 +1,22 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:id="@+id/action_settings"
-        android:title="@string/action_settings"
-        android:orderInCategory="100"
-        android:showAsAction="never" />
+
+    <item android:id="@+id/menu_fill_up"
+          android:title="@string/menu_fill_up"
+          android:icon="@drawable/ic_action_fuel"
+          android:showAsAction="always"
+            />
+
+    <item android:id="@+id/menu_add_vehicle"
+          android:title="@string/menu_add_vehicle" />
+
+    <item android:id="@+id/menu_edit_vehicle"
+          android:title="@string/menu_edit_vehicle" />
+
+    <item android:id="@+id/menu_delete_vehicle"
+          android:title="@string/menu_delete_vehicle" />
+
+    <item android:id="@+id/menu_settings"
+          android:title="@string/menu_settings"
+          android:icon="@android:drawable/ic_menu_preferences"
+          android:showAsAction="never" />
 </menu>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="distance_units">
+        <item>km</item>
+        <item>Miles</item>
+    </string-array>
+    <string-array name="distance_units_value">
+        <item>km</item>
+        <item>m</item>
+    </string-array>
+
+    <string-array name="volume_units">
+        <item>L</item>
+        <item>US gal</item>
+        <item>Imp gal</item>
+    </string-array>
+    <string-array name="volume_units_value">
+        <item>l</item>
+        <item>gal_us</item>
+        <item>gal_imp</item>
+    </string-array>
+
+    <string-array name="mileage_units">
+        <item>L/100km</item>
+        <item>km/L</item>
+        <item>mpg (US)</item>
+        <item>mpg (Imp)</item>
+    </string-array>
+    <string-array name="mileage_units_value">
+        <item>lp100km</item>
+        <item>kmpl</item>
+        <item>mpg_us</item>
+        <item>mpg_imp</item>
+    </string-array>
+</resources>
