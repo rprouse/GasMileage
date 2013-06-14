@@ -1,0 +1,7 @@
+# IDEA Ignores
+.idea/tasks.xml
+.idea/workspace.xml
+local.properties
+
+# Generic Android ignores
+GasMileage/build
