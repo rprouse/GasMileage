@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:id="@+id/entry_dialog"
+              android:layout_width="fill_parent"
+              android:layout_height="fill_parent">
+
+  <Spinner android:id="@+id/entry_dialog_vehicle"
+           android:layout_height="wrap_content"
+           android:layout_width="fill_parent" />
+
+  <TextView android:id="@+id/entry_dialog_date"
+            style="@style/DateSpinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+  <LinearLayout
+      android:orientation="horizontal"
+      android:layout_width="fill_parent"
+      android:layout_height="wrap_content">
+
+    <EditText android:id="@+id/entry_dialog_kilometers"
+              android:inputType="numberDecimal"
+              android:layout_height="wrap_content"
+              android:layout_width="0dip"
+              android:layout_weight="1"
+              android:imeOptions="actionNext"/>
+
+    <Spinner android:id="@+id/entry_dialog_kilometers_unit"
+             android:layout_height="wrap_content"
+             android:layout_width="wrap_content" />
+
+  </LinearLayout>
+
+  <LinearLayout
+      android:orientation="horizontal"
+      android:layout_width="fill_parent"
+      android:layout_height="wrap_content">
+
+    <EditText android:id="@+id/entry_dialog_liters"
+              android:inputType="numberDecimal"
+              android:layout_height="wrap_content"
+              android:layout_width="0dip"
+              android:layout_weight="1"
+              android:imeOptions="actionDone" />
+
+    <Spinner android:id="@+id/entry_dialog_liters_unit"
+             android:layout_height="wrap_content"
+             android:layout_width="wrap_content" />
+
+  </LinearLayout>
+
+  <LinearLayout
+      android:orientation="horizontal"
+      android:layout_width="fill_parent"
+      android:layout_height="wrap_content">
+
+    <Button
+        android:id="@+id/ok"
+        android:text="@string/ok"
+        android:layout_height="wrap_content"
+        android:layout_width="fill_parent"
+        android:layout_weight="2"
+        android:onClick="onOk" />
+
+    <Button
+        android:id="@+id/cancel"
+        android:text="@string/cancel"
+        android:layout_height="wrap_content"
+        android:layout_width="fill_parent"
+        android:layout_weight="2"
+        android:onClick="onCancel" />
+
+  </LinearLayout>
+
+</LinearLayout>
