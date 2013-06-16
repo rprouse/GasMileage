@@ -4,9 +4,11 @@ package net.alteridem.mileage;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.Fragment;
+import android.app.FragmentManager;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -23,7 +25,7 @@ import net.alteridem.mileage.fragments.StatisticsFragment;
 import java.util.ArrayList;
 import java.util.List;
 
-public class VehicleActivity extends Activity {
+public class VehicleActivity extends Activity implements VehicleDialog.IVehicleDialogListener, EntryDialog.IEntryDialogListener {
 
     /**
      * The serialization (saved instance state) Bundle key representing the
@@ -121,16 +123,16 @@ public class VehicleActivity extends Activity {
         switch ( item.getItemId() )
         {
             case R.id.menu_fill_up:
-//                enterFillUp();
+                enterFillUp();
                 break;
             case R.id.menu_add_vehicle:
-//                addVehicle();
+                addVehicle();
                 break;
             case R.id.menu_edit_vehicle:
-//                editVehicle();
+                editVehicle();
                 break;
             case R.id.menu_delete_vehicle:
-//                deleteVehicle();
+                deleteVehicle();
                 break;
             case R.id.menu_settings:
                 startActivity( new Intent( this, MileagePreferencesActivity.class ) );
@@ -194,6 +196,36 @@ public class VehicleActivity extends Activity {
         edit.commit();
     }
 
+    private void enterFillUp()
+    {
+        Log.d(TAG, "enterFillUp");
+        FragmentManager fm = getFragmentManager();
+        EntryDialog dlg = new EntryDialog( _currentVehicle );
+        dlg.show(fm, "entry_dialog");
+    }
+
+    private void addVehicle()
+    {
+        Log.d( TAG, "addVehicle" );
+        FragmentManager fm = getFragmentManager();
+        VehicleDialog dlg = new VehicleDialog();
+        dlg.show(fm, "add_vehicle_dialog");
+    }
+
+    private void editVehicle()
+    {
+        Log.d( TAG, "editVehicle" );
+        FragmentManager fm = getFragmentManager();
+        VehicleDialog dlg = new VehicleDialog( _currentVehicle );
+        dlg.show( fm, "edit_vehicle_dialog" );
+    }
+
+    private void deleteVehicle()
+    {
+        // TODO: Delete the vehicle
+        Log.d(TAG, "deleteVehicle");
+    }
+
     public void switchToVehicle(long vehicle_id)
     {
         Vehicle v = null;
@@ -237,5 +269,21 @@ public class VehicleActivity extends Activity {
             EntriesFragment ef = (EntriesFragment)fragment;
             ef.fillEntries( getEntries() );
         }
+    }
+
+    @Override
+    public void onFinishVehicleDialog( Vehicle vehicle )
+    {
+        // Save the vehicle to the last vehicle used so we can set the
+        // spinner to it
+        _currentVehicle = vehicle;
+        saveLastVehicle();
+        loadVehicles();
+    }
+
+    @Override
+    public void onFinishEntryDialog( Vehicle vehicle )
+    {
+        switchToVehicle( vehicle.getId() );
     }
 }
