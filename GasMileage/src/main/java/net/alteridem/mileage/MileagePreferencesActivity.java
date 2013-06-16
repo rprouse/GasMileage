@@ -10,9 +10,8 @@ public class MileagePreferencesActivity extends PreferenceActivity {
 
     private static final String TAG = MileagePreferencesActivity.class.getSimpleName();
 
-    public void onCreate( Bundle savedInstanceState )
-    {
-        super.onCreate( savedInstanceState );
-        addPreferencesFromResource( R.xml.preferences );
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        addPreferencesFromResource(R.xml.preferences);
     }
 }

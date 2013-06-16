@@ -21,59 +21,53 @@ import java.util.List;
 /**
  * Created by Robert Prouse on 13/06/13.
  */
-public class StatisticsFragment extends Fragment
-{
+public class StatisticsFragment extends Fragment {
     ListView vehicle_statistics;
 
     @Override
-    public View onCreateView( LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState )
-    {
-        return inflater.inflate( R.layout.fragment_statistics, container, false );
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.fragment_statistics, container, false);
     }
 
     @Override
-    public void onActivityCreated( Bundle savedInstanceState )
-    {
-        super.onActivityCreated( savedInstanceState );
-        vehicle_statistics = (ListView) getActivity().findViewById( R.id.vehicle_statistics );
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        vehicle_statistics = (ListView) getActivity().findViewById(R.id.vehicle_statistics);
 
-        VehicleActivity activity = (VehicleActivity)getActivity();
-        if ( activity != null )
-        {
-            fillStatistics( activity.getCurrentVehicle() );
+        VehicleActivity activity = (VehicleActivity) getActivity();
+        if (activity != null) {
+            fillStatistics(activity.getCurrentVehicle());
         }
     }
 
-    public void fillStatistics( Vehicle vehicle )
-    {
-        if( vehicle == null )
+    public void fillStatistics(Vehicle vehicle) {
+        if (vehicle == null)
             return;
 
-        if ( getActivity() == null )
+        if (getActivity() == null)
             return;
 
         // create the grid item mapping
-        String[] from = new String[]{ "label", "value" };
-        int[] to = new int[]{ R.id.statistic_label, R.id.statistic_value };
+        String[] from = new String[]{"label", "value"};
+        int[] to = new int[]{R.id.statistic_label, R.id.statistic_value};
 
         // prepare the list of all records
         Resources res = getResources(); // Resource object to get strings
         List<HashMap<String, String>> fillMaps = new ArrayList<HashMap<String, String>>();
-        fillMaps.add( getStatisticMap( res.getString( R.string.stat_best_mileage ), String.format( "%.2f %s", vehicle.getBestMileage(), Convert.getMileageUnitString() ) ) );
-        fillMaps.add( getStatisticMap( res.getString( R.string.stat_avg_mileage ), String.format( "%.2f %s", vehicle.getAverageMileage(), Convert.getMileageUnitString() ) ) );
-        fillMaps.add( getStatisticMap( res.getString( R.string.stat_worst_mileage ), String.format( "%.2f %s", vehicle.getWorstMileage(), Convert.getMileageUnitString() ) ) );
-        fillMaps.add( getStatisticMap( res.getString( R.string.stat_last_mileage ), String.format( "%.2f %s", vehicle.getLastMileage(), Convert.getMileageUnitString() ) ) );
+        fillMaps.add(getStatisticMap(res.getString(R.string.stat_best_mileage), String.format("%.2f %s", vehicle.getBestMileage(), Convert.getMileageUnitString())));
+        fillMaps.add(getStatisticMap(res.getString(R.string.stat_avg_mileage), String.format("%.2f %s", vehicle.getAverageMileage(), Convert.getMileageUnitString())));
+        fillMaps.add(getStatisticMap(res.getString(R.string.stat_worst_mileage), String.format("%.2f %s", vehicle.getWorstMileage(), Convert.getMileageUnitString())));
+        fillMaps.add(getStatisticMap(res.getString(R.string.stat_last_mileage), String.format("%.2f %s", vehicle.getLastMileage(), Convert.getMileageUnitString())));
 
         // fill in the grid_item layout
-        SimpleAdapter adapter = new SimpleAdapter( getActivity(), fillMaps, R.layout.statistic, from, to );
-        vehicle_statistics.setAdapter( adapter );
+        SimpleAdapter adapter = new SimpleAdapter(getActivity(), fillMaps, R.layout.statistic, from, to);
+        vehicle_statistics.setAdapter(adapter);
     }
 
-    private HashMap<String, String> getStatisticMap( String label, String value )
-    {
+    private HashMap<String, String> getStatisticMap(String label, String value) {
         HashMap<String, String> map = new HashMap<String, String>();
-        map.put( "label", label );
-        map.put( "value", value );
+        map.put("label", label);
+        map.put("value", value);
         return map;
     }
 }
