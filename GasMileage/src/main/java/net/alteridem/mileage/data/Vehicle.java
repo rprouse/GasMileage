@@ -22,11 +22,17 @@ public class Vehicle {
     static final String C_NAME = "name";
     static final String[] COLUMNS = {C_ID, C_NAME};
 
-    static final String QUERY = "SELECT v.id, v.name FROM vehicle v INNER JOIN entry e on e.vehicle_id=v.id WHERE v.id=?";
+    static final String QUERY_START = "SELECT v.id, v.name, MIN( e.mileage ), MAX( e.mileage ), AVG( e.mileage ) FROM vehicle v INNER JOIN entry e on e.vehicle_id=v.id ";
+    static final String QUERY_GROUP_BY = "GROUP BY v.id";
+    static final String QUERY_ALL = QUERY_START + QUERY_GROUP_BY;
+    static final String QUERY_ONE = QUERY_START + " WHERE v.id=? " +QUERY_GROUP_BY;
 
     private long id;
     private String name;
     private List<Entry> entries;
+    private double bestMileage;
+    private double worstMileage;
+    private double averageMileage;
 
     @Override
     public String toString() {
@@ -34,15 +40,21 @@ public class Vehicle {
     }
 
     public Vehicle(String name) {
-        this.id = -1;
+        id = -1;
         this.name = name;
-        this.entries = null;
+        entries = null;
+        bestMileage = 0;
+        worstMileage = 0;
+        averageMileage = 0;
     }
 
-    public Vehicle(Cursor cursor) {
-        this.id = cursor.getInt(0);
-        this.name = cursor.getString(1);
-        this.entries = null;
+    public Vehicle(Cursor cursor ) {
+        id = cursor.getInt(0);
+        name = cursor.getString(1);
+        entries = null;
+        bestMileage = cursor.getDouble(2);
+        worstMileage = cursor.getDouble(3);
+        averageMileage = cursor.getDouble(4);
     }
 
     public long getId() {
@@ -67,44 +79,15 @@ public class Vehicle {
     }
 
     public double getBestMileage() {
-        if (entries.size() == 0) {
-            return 0;
-        }
-        double bestMileage = Double.MAX_VALUE;
-        for (Entry entry : getEntries()) {
-            double mileage = entry.getMileage();
-            if (mileage < bestMileage) {
-                bestMileage = mileage;
-            }
-        }
         return Convert.mileage(bestMileage);
     }
 
     public double getWorstMileage() {
-        if (entries.size() == 0) {
-            return 0;
-        }
-        double worstMileage = Double.MIN_VALUE;
-        for (Entry entry : getEntries()) {
-            double mileage = entry.getMileage();
-            if (mileage > worstMileage) {
-                worstMileage = mileage;
-            }
-        }
         return Convert.mileage(worstMileage);
     }
 
     public double getAverageMileage() {
-        if (entries.size() == 0) {
-            return 0;
-        }
-        int count = 0;
-        double mileageTotal = 0;
-        for (Entry entry : getEntries()) {
-            count++;
-            mileageTotal += entry.getMileage();
-        }
-        return Convert.mileage(mileageTotal / count);
+        return Convert.mileage(averageMileage);
     }
 
     public double getLastMileage() {
@@ -139,7 +122,7 @@ public class Vehicle {
         List<Vehicle> vehicles = new ArrayList<Vehicle>();
         SQLiteDatabase db = MileageApplication.getApplication().getDbHelper().getWritableDatabase();
         try {
-            Cursor cursor = db.query(TABLE, COLUMNS, null, null, null, null, null);
+            Cursor cursor = db.rawQuery(QUERY_ALL, new String[]{});
             try {
                 while (cursor.moveToNext()) {
                     vehicles.add(new Vehicle(cursor));
@@ -157,7 +140,7 @@ public class Vehicle {
         Vehicle vehicle = null;
         SQLiteDatabase db = MileageApplication.getApplication().getDbHelper().getWritableDatabase();
         try {
-            Cursor cursor = db.rawQuery( QUERY, new String[] { String.valueOf( id ) } );
+            Cursor cursor = db.rawQuery(QUERY_ONE, new String[]{String.valueOf(id)});
             try {
                 if (cursor.moveToFirst()) {
                     vehicle = new Vehicle(cursor);
