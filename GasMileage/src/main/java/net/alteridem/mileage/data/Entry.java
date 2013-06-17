@@ -24,8 +24,9 @@ public class Entry {
     static final String C_LITRES = "litres";
     static final String C_KILOMETERS = "kilometers";
     static final String C_FILLUP_DATE = "fillup_date";
+    static final String C_MILEAGE = "mileage";
     static final String C_NOTE = "note";
-    static final String[] COLUMNS = {C_ID, C_VEHICLE_ID, C_LITRES, C_KILOMETERS, C_FILLUP_DATE, C_NOTE};
+    static final String[] COLUMNS = {C_ID, C_VEHICLE_ID, C_LITRES, C_KILOMETERS, C_FILLUP_DATE, C_MILEAGE, C_NOTE};
     static final String ORDER_BY = C_FILLUP_DATE + " DESC";
 
     private long id;
@@ -50,7 +51,7 @@ public class Entry {
         litres = cursor.getDouble(2);
         kilometers = cursor.getDouble(3);
         fillup_date = new Date(cursor.getLong(4));
-        note = cursor.getString(5);
+        note = cursor.getString(6);
     }
 
     public Date getFillup_date() {
@@ -135,6 +136,7 @@ public class Entry {
         values.put(C_LITRES, litres);
         values.put(C_KILOMETERS, kilometers);
         values.put(C_FILLUP_DATE, fillup_date.getTime());
+        values.put(C_MILEAGE, getMileage());
         values.put(C_NOTE, note);
         if (id < 0) {
             id = db.insertOrThrow(TABLE, null, values);
@@ -142,16 +144,6 @@ public class Entry {
         } else {
             db.update(TABLE, values, "id=" + id, null);
             Log.d(TAG, String.format("Updated entry %d", id));
-        }
-    }
-
-    public static List<Entry> fetchAll() {
-        SQLiteDatabase db = MileageApplication.getApplication().getDbHelper().getWritableDatabase();
-        try {
-            Cursor cursor = db.query(TABLE, COLUMNS, null, null, null, null, ORDER_BY);
-            return createEntryList(cursor);
-        } finally {
-            db.close();
         }
     }
 
@@ -185,6 +177,7 @@ public class Entry {
                 C_LITRES + " REAL NOT NULL DEFAULT 0, " +
                 C_KILOMETERS + " REAL NOT NULL DEFAULT 0, " +
                 C_FILLUP_DATE + " INTEGER NOT NULL DEFAULT CURRENT_DATE, " +
+                C_MILEAGE + " REAL NOT NULL DEFAULT 0, " +
                 C_NOTE + " TEXT )";
         db.execSQL(sql);
         Log.d(TAG, "Created " + TABLE + " table");
