@@ -22,6 +22,8 @@ public class Vehicle {
     static final String C_NAME = "name";
     static final String[] COLUMNS = {C_ID, C_NAME};
 
+    static final String QUERY = "SELECT v.id, v.name FROM vehicle v INNER JOIN entry e on e.vehicle_id=v.id WHERE v.id=?";
+
     private long id;
     private String name;
     private List<Entry> entries;
@@ -155,7 +157,7 @@ public class Vehicle {
         Vehicle vehicle = null;
         SQLiteDatabase db = MileageApplication.getApplication().getDbHelper().getWritableDatabase();
         try {
-            Cursor cursor = db.query(TABLE, null, "id=" + id, null, null, null, null);
+            Cursor cursor = db.rawQuery( QUERY, new String[] { String.valueOf( id ) } );
             try {
                 if (cursor.moveToFirst()) {
                     vehicle = new Vehicle(cursor);
