@@ -20,9 +20,10 @@ public class Vehicle {
     static final String TABLE = "vehicle";
     static final String C_ID = "id";
     static final String C_NAME = "name";
-    static final String[] COLUMNS = {C_ID, C_NAME};
+    static final String C_LAST_MILEAGE = "last_mileage";
+    static final String[] COLUMNS = {C_ID, C_NAME, C_LAST_MILEAGE};
 
-    static final String QUERY_START = "SELECT v.id, v.name, MIN( e.mileage ), MAX( e.mileage ), AVG( e.mileage ) FROM vehicle v INNER JOIN entry e on e.vehicle_id=v.id ";
+    static final String QUERY_START = "SELECT v.id, v.name, MIN( e.mileage ), MAX( e.mileage ), AVG( e.mileage ), v.last_mileage FROM vehicle v INNER JOIN entry e on e.vehicle_id=v.id ";
     static final String QUERY_GROUP_BY = "GROUP BY v.id";
     static final String QUERY_ALL = QUERY_START + QUERY_GROUP_BY;
     static final String QUERY_ONE = QUERY_START + " WHERE v.id=? " +QUERY_GROUP_BY;
@@ -33,6 +34,7 @@ public class Vehicle {
     private double bestMileage;
     private double worstMileage;
     private double averageMileage;
+    private double lastMileage;
 
     @Override
     public String toString() {
@@ -46,15 +48,21 @@ public class Vehicle {
         bestMileage = 0;
         worstMileage = 0;
         averageMileage = 0;
+        lastMileage = 0;
     }
 
-    public Vehicle(Cursor cursor ) {
+    private Vehicle(Cursor cursor) {
+        loadFromCursor(cursor);
+    }
+
+    private void loadFromCursor(Cursor cursor) {
         id = cursor.getInt(0);
         name = cursor.getString(1);
         entries = null;
         bestMileage = cursor.getDouble(2);
         worstMileage = cursor.getDouble(3);
         averageMileage = cursor.getDouble(4);
+        lastMileage = cursor.getDouble(5);
     }
 
     public long getId() {
@@ -91,10 +99,7 @@ public class Vehicle {
     }
 
     public double getLastMileage() {
-        if (entries.size() == 0) {
-            return 0;
-        }
-        return Convert.mileage(entries.get(0).getMileage());
+        return Convert.mileage(lastMileage);
     }
 
     public void save() {
@@ -109,6 +114,7 @@ public class Vehicle {
     public void save(SQLiteDatabase db) {
         ContentValues values = new ContentValues();
         values.put(C_NAME, name);
+        values.put(C_LAST_MILEAGE, lastMileage);
         if (id < 0) {
             id = db.insertOrThrow(TABLE, null, values);
             Log.d(TAG, String.format("Inserted vehicle %s with id %d", name, id));
@@ -116,6 +122,20 @@ public class Vehicle {
             db.update(TABLE, values, "id=" + id, null);
             Log.d(TAG, String.format("Updated vehicle %s with id %d", name, id));
         }
+    }
+
+    /**
+     * Updates the last mileage value for a given vehicle
+     * @param db The database to use
+     * @param id The id of the vehicle to update
+     * @param mileage The last mileage to update
+     */
+    public static void updateLastMileage(SQLiteDatabase db, long id, double mileage ) {
+        ContentValues values = new ContentValues();
+        values.put(C_LAST_MILEAGE, mileage);
+
+        db.update(TABLE, values, "id=" + id, null);
+        Log.d(TAG, String.format("Updated vehicle %d", id));
     }
 
     public static List<Vehicle> fetchAll() {
@@ -154,10 +174,28 @@ public class Vehicle {
         return vehicle;
     }
 
+    public void reload() {
+        SQLiteDatabase db = MileageApplication.getApplication().getDbHelper().getWritableDatabase();
+        try {
+            Cursor cursor = db.rawQuery(QUERY_ONE, new String[]{String.valueOf(id)});
+            try {
+                if (cursor.moveToFirst()) {
+                    loadFromCursor(cursor);
+                }
+            } finally {
+                cursor.close();
+            }
+        } finally {
+            db.close();
+        }
+    }
+
+
     static void createTable(SQLiteDatabase db) {
         String sql = "CREATE TABLE IF NOT EXISTS " + TABLE +
                 " ( " + C_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                C_NAME + " TEXT NOT NULL )";
+                C_NAME + " TEXT NOT NULL, " +
+                C_LAST_MILEAGE + " REAL NOT NULL DEFAULT 0 )";
         db.execSQL(sql);
         Log.d(TAG, "Created vehicle table");
     }

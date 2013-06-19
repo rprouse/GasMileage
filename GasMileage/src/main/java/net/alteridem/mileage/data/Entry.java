@@ -145,6 +145,7 @@ public class Entry {
             db.update(TABLE, values, "id=" + id, null);
             Log.d(TAG, String.format("Updated entry %d", id));
         }
+        Vehicle.updateLastMileage(db, vehicle_id, getMileage());
     }
 
     public static List<Entry> fetchAll(long vehicle_id) {

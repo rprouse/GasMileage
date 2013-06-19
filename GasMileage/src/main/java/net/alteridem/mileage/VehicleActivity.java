@@ -233,6 +233,7 @@ public class VehicleActivity extends Activity implements VehicleDialog.IVehicleD
         {
             if ( veh.getId() == vehicle_id )
             {
+                veh.reload();
                 v = veh;
                 break;
             }
@@ -248,7 +249,6 @@ public class VehicleActivity extends Activity implements VehicleDialog.IVehicleD
     private void loadVehicle()
     {
         _currentVehicle = (Vehicle) _spinner.getSelectedItem();
-        _currentVehicle.getEntries();
 
         // This will load the data into the current fragment
         setDataToFragment( (Fragment) getActionBar().getSelectedTab().getTag() );
