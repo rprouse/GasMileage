@@ -4,6 +4,7 @@ import android.app.DialogFragment;
 import android.os.Bundle;
 import android.view.*;
 import android.view.inputmethod.EditorInfo;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -47,27 +48,47 @@ public class VehicleDialog extends DialogFragment implements TextView.OnEditorAc
         getDialog().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
         _vehicleName.setOnEditorActionListener(this);
 
+        Button ok = (Button) view.findViewById(R.id.vehicle_dialog_ok);
+        ok.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                closeDialog();
+            }
+        });
+
+        Button cancel = (Button) view.findViewById(R.id.vehicle_dialog_cancel);
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dismiss();
+            }
+        });
+
         return view;
     }
 
     @Override
     public boolean onEditorAction(TextView textView, int actionId, KeyEvent event) {
         if (EditorInfo.IME_ACTION_DONE == actionId) {
-            // Save the vehicle
-            String name = _vehicleName.getText().toString();
-            if (_vehicle == null) {
-                _vehicle = new Vehicle(name);
-            } else {
-                _vehicle.setName(name);
-            }
-            _vehicle.save();
-
-            // Call back to the activity
-            IVehicleDialogListener activity = (IVehicleDialogListener) getActivity();
-            activity.onFinishVehicleDialog(_vehicle);
-            this.dismiss();
+            closeDialog();
             return true;
         }
         return false;
+    }
+
+    private void closeDialog() {
+        // Save the vehicle
+        String name = _vehicleName.getText().toString();
+        if (_vehicle == null) {
+            _vehicle = new Vehicle(name);
+        } else {
+            _vehicle.setName(name);
+        }
+        _vehicle.save();
+
+        // Call back to the activity
+        IVehicleDialogListener activity = (IVehicleDialogListener) getActivity();
+        activity.onFinishVehicleDialog(_vehicle);
+        this.dismiss();
     }
 }

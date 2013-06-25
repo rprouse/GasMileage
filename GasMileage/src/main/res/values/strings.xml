@@ -53,5 +53,6 @@
     <string name="vehicle_dialog_label">Vehicle Name</string>
     <string name="vehicle_dialog_title_add">Add Vehicle</string>
     <string name="vehicle_dialog_title_edit">Edit Vehicle</string>
+    <string name="vehicle_dialog_hint">Vehicle Name</string>
 
 </resources>
