@@ -22,7 +22,7 @@
     <string name="stat_last_mileage">Last mileage</string>
 
     <!-- Menus -->
-    <string name="menu_fill_up">Fill Up</string>
+    <string name="menu_fill_up">Fill-Up</string>
     <string name="menu_add_vehicle">Add Vehicle</string>
     <string name="menu_edit_vehicle">Edit Vehicle</string>
     <string name="menu_delete_vehicle">Delete Vehicle</string>
@@ -47,8 +47,6 @@
     <!-- Vehicle Dialog -->
     <string name="vehicle_dialog_add_title">Add Vehicle</string>
     <string name="vehicle_dialog_edit_title">Edit Vehicle</string>
-
-    <!-- Delete Vehicle Alert -->
     <string name="vehicle_dialog_delete_title">Delete Vehicle</string>
     <string name="vehicle_dialog_label">Vehicle Name</string>
     <string name="vehicle_dialog_title_add">Add Vehicle</string>

@@ -3,7 +3,7 @@
     <item android:id="@+id/menu_fill_up"
           android:title="@string/menu_fill_up"
           android:icon="@drawable/ic_action_fuel"
-          android:showAsAction="always"
+          android:showAsAction="withText"
             />
 
     <item android:id="@+id/menu_add_vehicle"
@@ -19,4 +19,5 @@
           android:title="@string/menu_settings"
           android:icon="@android:drawable/ic_menu_preferences"
           android:showAsAction="never" />
+
 </menu>
