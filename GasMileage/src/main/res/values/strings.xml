@@ -38,8 +38,11 @@
     <string name="prefs_summary_volume_units">Units for volumes in Litres or Gallons</string>
     <string name="prefs_title_distance_units">Distance Units</string>
     <string name="prefs_summary_distance_units">Units for distances in Kilometres or Miles</string>
-    <string name="prefs_title_mileage_units">Mileage units</string>
+    <string name="prefs_title_mileage_units">Mileage Units</string>
     <string name="prefs_summary_mileage_units">Units to display mileage in</string>
+    <string name="prefs_settings_category">Settings</string>
+    <string name="prefs_title_show_reminder">Show Reset Odometer Reminder</string>
+    <string name="prefs_summary_show_reminder">Shows a dialog after you fill-up reminding you to reset your odometer</string>
 
     <!-- Entry Dialog -->
     <string name="entry_dialog_title">Fill-Up</string>

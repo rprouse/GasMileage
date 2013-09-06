@@ -4,28 +4,36 @@
 
     <PreferenceCategory android:title="@string/prefs_units_category" />
 
-    <ListPreference android:title="@string/prefs_title_volume_units"
-                    android:summary="@string/prefs_summary_volume_units"
-                    android:key="volume_units"
-                    android:entries="@array/volume_units"
-                    android:entryValues="@array/volume_units_value"
-                    android:defaultValue="l"
-            />
+    <ListPreference
+        android:title="@string/prefs_title_volume_units"
+        android:summary="@string/prefs_summary_volume_units"
+        android:key="volume_units"
+        android:entries="@array/volume_units"
+        android:entryValues="@array/volume_units_value"
+        android:defaultValue="l" />
 
-    <ListPreference android:title="@string/prefs_title_distance_units"
-                    android:summary="@string/prefs_summary_distance_units"
-                    android:key="distance_units"
-                    android:entries="@array/distance_units"
-                    android:entryValues="@array/distance_units_value"
-                    android:defaultValue="km"
-            />
+    <ListPreference
+        android:title="@string/prefs_title_distance_units"
+        android:summary="@string/prefs_summary_distance_units"
+        android:key="distance_units"
+        android:entries="@array/distance_units"
+        android:entryValues="@array/distance_units_value"
+        android:defaultValue="km" />
 
-    <ListPreference android:title="@string/prefs_title_mileage_units"
-                    android:summary="@string/prefs_summary_mileage_units"
-                    android:key="mileage_units"
-                    android:entries="@array/mileage_units"
-                    android:entryValues="@array/mileage_units_value"
-                    android:defaultValue="lp100km"
-            />
+    <ListPreference
+        android:title="@string/prefs_title_mileage_units"
+        android:summary="@string/prefs_summary_mileage_units"
+        android:key="mileage_units"
+        android:entries="@array/mileage_units"
+        android:entryValues="@array/mileage_units_value"
+        android:defaultValue="lp100km" />
+
+    <PreferenceCategory android:title="@string/prefs_settings_category" />
+
+    <CheckBoxPreference
+        android:title="@string/prefs_title_show_reminder"
+        android:summary="@string/prefs_summary_show_reminder"
+        android:key="show_reset_odometer"
+        android:defaultValue="true" />
 
 </PreferenceScreen>

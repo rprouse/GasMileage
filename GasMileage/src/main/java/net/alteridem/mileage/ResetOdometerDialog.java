@@ -1,6 +1,7 @@
 package net.alteridem.mileage;
 
 import android.app.DialogFragment;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -34,7 +35,11 @@ public class ResetOdometerDialog extends DialogFragment {
 
     private void closeDialog() {
         if ( _checkBox.isChecked() ) {
-            // TODO: Set if we want to show this again
+            final SharedPreferences.Editor editor = MileageApplication.getSharedPreferences().edit();
+            if ( editor != null ) {
+                editor.putBoolean( "show_reset_odometer", false );
+                editor.commit();
+            }
         }
         this.dismiss();
     }
