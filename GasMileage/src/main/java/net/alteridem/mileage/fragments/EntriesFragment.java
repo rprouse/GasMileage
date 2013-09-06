@@ -1,6 +1,7 @@
 package net.alteridem.mileage.fragments;
 
-import android.app.Fragment;
+import android.support.v4.app.Fragment;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
@@ -11,9 +12,9 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
+import android.widget.SimpleCursorAdapter;
 
 import net.alteridem.mileage.R;
-import net.alteridem.mileage.VehicleActivity;
 import net.alteridem.mileage.data.Entry;
 
 import java.util.ArrayList;
@@ -70,13 +71,13 @@ public class EntriesFragment extends Fragment {
     }
 
     private void fillEntries() {
-        VehicleActivity activity = (VehicleActivity) getActivity();
-        if (activity != null) {
-            fillEntries(activity.getEntries());
-        }
+//        VehicleActivity activity = (VehicleActivity) getActivity();
+//        if (activity != null) {
+//            fillEntries(activity.getEntries());
+//        }
     }
 
-    public void fillEntries(List<Entry> entries) {
+    public void fillEntries(Cursor entries) {
         if (entries == null)
             return;
 
@@ -84,18 +85,11 @@ public class EntriesFragment extends Fragment {
             return;
 
         // create the grid item mapping
-        String[] from = new String[]{"date", "kilometers", "liters", "mileage"};
+        String[] from = new String[]{Entry.C_FILLUP_DATE, Entry.C_KILOMETERS, Entry.C_LITRES, Entry.C_MILEAGE};
         int[] to = new int[]{R.id.entry_date, R.id.entry_kilometers, R.id.entry_liters, R.id.entry_mileage};
 
-        // prepare the list of all records
-        List<HashMap<String, String>> fillMaps = new ArrayList<HashMap<String, String>>();
-
-        for (Entry entry : entries) {
-            fillMaps.add(getEntry(entry));
-        }
-
         // fill in the grid_item layout
-        SimpleAdapter adapter = new SimpleAdapter(getActivity(), fillMaps, R.layout.entry, from, to);
+        SimpleCursorAdapter adapter = new SimpleCursorAdapter(getActivity(), R.layout.entry, entries, from, to);
         vehicle_entries.setAdapter(adapter);
     }
 

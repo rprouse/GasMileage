@@ -1,6 +1,6 @@
 package net.alteridem.mileage.fragments;
 
-import android.app.Fragment;
+import android.support.v4.app.Fragment;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -11,7 +11,6 @@ import android.widget.SimpleAdapter;
 
 import net.alteridem.mileage.Convert;
 import net.alteridem.mileage.R;
-import net.alteridem.mileage.VehicleActivity;
 import net.alteridem.mileage.data.Vehicle;
 
 import java.util.ArrayList;
@@ -32,12 +31,12 @@ public class StatisticsFragment extends Fragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        vehicle_statistics = (ListView) getActivity().findViewById(R.id.vehicle_statistics);
-
-        VehicleActivity activity = (VehicleActivity) getActivity();
-        if (activity != null) {
-            fillStatistics(activity.getCurrentVehicle());
-        }
+//        vehicle_statistics = (ListView) getActivity().findViewById(R.id.vehicle_statistics);
+//
+//        VehicleActivity activity = (VehicleActivity) getActivity();
+//        if (activity != null) {
+//            fillStatistics(activity.getCurrentVehicle());
+//        }
     }
 
     public void fillStatistics(Vehicle vehicle) {

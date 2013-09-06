@@ -19,13 +19,13 @@ public class Entry {
     static final String TAG = Entry.class.getSimpleName();
     static final String TABLE = "entry";
 
-    static final String C_ID = "id";
-    static final String C_VEHICLE_ID = "vehicle_id";
-    static final String C_LITRES = "litres";
-    static final String C_KILOMETERS = "kilometers";
-    static final String C_FILLUP_DATE = "fillup_date";
-    static final String C_MILEAGE = "mileage";
-    static final String C_NOTE = "note";
+    public static final String C_ID = "id";
+    public static final String C_VEHICLE_ID = "vehicle_id";
+    public static final String C_LITRES = "litres";
+    public static final String C_KILOMETERS = "kilometers";
+    public static final String C_FILLUP_DATE = "fillup_date";
+    public static final String C_MILEAGE = "mileage";
+    public static final String C_NOTE = "note";
     static final String[] COLUMNS = {C_ID, C_VEHICLE_ID, C_LITRES, C_KILOMETERS, C_FILLUP_DATE, C_MILEAGE, C_NOTE};
     static final String ORDER_BY = C_FILLUP_DATE + " DESC";
 
@@ -148,27 +148,14 @@ public class Entry {
         Vehicle.updateLastMileage(db, vehicle_id, getMileage());
     }
 
-    public static List<Entry> fetchAll(long vehicle_id) {
+    public static Cursor fetchAll(long vehicle_id) {
         SQLiteDatabase db = MileageApplication.getApplication().getDbHelper().getWritableDatabase();
         try {
             Cursor cursor = db.query(TABLE, COLUMNS, "vehicle_id=" + vehicle_id, null, null, null, ORDER_BY);
-            return createEntryList(cursor);
+            return cursor;
         } finally {
             db.close();
         }
-    }
-
-    private static List<Entry> createEntryList(Cursor cursor) {
-        List<Entry> entries = new ArrayList<Entry>();
-        try {
-            while (cursor.moveToNext()) {
-                entries.add(new Entry(cursor));
-            }
-        } finally {
-            cursor.close();
-        }
-        return entries;
-
     }
 
     static void createTable(SQLiteDatabase db) {

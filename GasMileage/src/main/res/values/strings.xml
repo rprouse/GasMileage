@@ -14,8 +14,7 @@
     <string name="vehicle_unknown">Unknown</string>
     <string name="vehicle_statistics">Statistics</string>
     <string name="vehicle_entries">Fill-Ups</string>
--
-    <!-- Statistics -->
+-    <!-- Statistics -->
     <string name="stat_best_mileage">Best mileage</string>
     <string name="stat_avg_mileage">Average mileage</string>
     <string name="stat_worst_mileage">Worst mileage</string>
@@ -27,7 +26,6 @@
     <string name="menu_edit_vehicle">Edit Vehicle</string>
     <string name="menu_delete_vehicle">Delete Vehicle</string>
     <string name="menu_settings">Settings</string>
-
     <string name="entry_menu_edit">Edit Entry</string>
     <string name="entry_menu_delete">Delete Entry</string>
 
@@ -52,5 +50,8 @@
     <string name="vehicle_dialog_title_add">Add Vehicle</string>
     <string name="vehicle_dialog_title_edit">Edit Vehicle</string>
     <string name="vehicle_dialog_hint">Vehicle Name</string>
+
+    <string name="action_settings">Settings</string>
+    <string name="menu_vehicles">Vehicles</string>
 
 </resources>

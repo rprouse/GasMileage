@@ -30,7 +30,6 @@ public class Vehicle {
 
     private long id;
     private String name;
-    private List<Entry> entries;
     private double bestMileage;
     private double worstMileage;
     private double averageMileage;
@@ -44,7 +43,6 @@ public class Vehicle {
     public Vehicle(String name) {
         id = -1;
         this.name = name;
-        entries = null;
         bestMileage = 0;
         worstMileage = 0;
         averageMileage = 0;
@@ -58,7 +56,6 @@ public class Vehicle {
     private void loadFromCursor(Cursor cursor) {
         id = cursor.getInt(0);
         name = cursor.getString(1);
-        entries = null;
         bestMileage = cursor.getDouble(2);
         worstMileage = cursor.getDouble(3);
         averageMileage = cursor.getDouble(4);
@@ -77,13 +74,11 @@ public class Vehicle {
         this.name = name;
     }
 
-    public List<Entry> getEntries() {
+    public Cursor getEntries() {
         if (this.id < 0) {
-            entries = new ArrayList<Entry>();
-        } else {
-            entries = Entry.fetchAll(this.id);
+            return null;
         }
-        return this.entries;
+        return Entry.fetchAll(this.id);
     }
 
     public double getBestMileage() {
