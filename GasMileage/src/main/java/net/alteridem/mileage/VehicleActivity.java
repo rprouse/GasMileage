@@ -31,7 +31,7 @@ public class VehicleActivity extends Activity implements VehicleDialog.IVehicleD
      * The serialization (saved instance state) Bundle key representing the
      * current dropdown position.
      */
-    private static final String STATE_SELECTED_NAVIGATION_ITEM = "selected_navigation_item";
+    //private static final String STATE_SELECTED_NAVIGATION_ITEM = "selected_navigation_item";
 
     private static final String TAG = VehicleActivity.class.getSimpleName();
 
@@ -57,7 +57,9 @@ public class VehicleActivity extends Activity implements VehicleDialog.IVehicleD
 
         // Set up the action bar to show a dropdown list.
         final ActionBar actionBar = getActionBar();
-        actionBar.setDisplayShowTitleEnabled(false);
+        if ( actionBar == null ) return;
+
+        //actionBar.setDisplayShowTitleEnabled(false);
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 
         ActionBar.Tab tab = actionBar.newTab()
@@ -96,19 +98,17 @@ public class VehicleActivity extends Activity implements VehicleDialog.IVehicleD
 
 
     @Override
-    public void onRestoreInstanceState(Bundle savedInstanceState) {
+    public void onRestoreInstanceState( Bundle savedInstanceState) {
         // Restore the previously serialized current dropdown position.
 //        if (savedInstanceState.containsKey(STATE_SELECTED_NAVIGATION_ITEM)) {
-//            getActionBar().setSelectedNavigationItem(
-//                    savedInstanceState.getInt(STATE_SELECTED_NAVIGATION_ITEM));
+//            getActionBar().setSelectedNavigationItem( savedInstanceState.getInt(STATE_SELECTED_NAVIGATION_ITEM));
 //        }
     }
 
     @Override
-    public void onSaveInstanceState(Bundle outState) {
+    public void onSaveInstanceState( Bundle outState ) {
         // Serialize the current dropdown position.
-//        outState.putInt(STATE_SELECTED_NAVIGATION_ITEM,
-//                getActionBar().getSelectedNavigationIndex());
+//        outState.putInt(STATE_SELECTED_NAVIGATION_ITEM, getActionBar().getSelectedNavigationIndex());
     }
 
     @Override
@@ -250,8 +250,14 @@ public class VehicleActivity extends Activity implements VehicleDialog.IVehicleD
     {
         _currentVehicle = (Vehicle) _spinner.getSelectedItem();
 
+        ActionBar actionBar = getActionBar();
+        if ( actionBar == null ) return;
+
+        ActionBar.Tab tab = actionBar.getSelectedTab();
+        if ( tab == null ) return;
+
         // This will load the data into the current fragment
-        setDataToFragment( (Fragment) getActionBar().getSelectedTab().getTag() );
+        setDataToFragment((Fragment) tab.getTag());
     }
 
     public void setDataToFragment( Fragment fragment )
