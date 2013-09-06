@@ -53,4 +53,8 @@
     <string name="vehicle_dialog_title_edit">Edit Vehicle</string>
     <string name="vehicle_dialog_hint">Vehicle Name</string>
 
+    <!-- Reset Odometer Dialog -->
+    <string name="reset_dialog_checkbox">Do not show this dialog again</string>
+    <string name="reset_dialog_title">Remember: Reset your odometer</string>
+
 </resources>

@@ -291,5 +291,10 @@ public class VehicleActivity extends Activity implements VehicleDialog.IVehicleD
     public void onFinishEntryDialog( Vehicle vehicle )
     {
         switchToVehicle( vehicle.getId() );
+
+        // TODO: Determine if we should show this dialog
+        FragmentManager fm = getFragmentManager();
+        ResetOdometerDialog dlg = new ResetOdometerDialog();
+        dlg.show( fm, "reset_odometer_dialog" );
     }
 }
