@@ -16,6 +16,8 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
+import com.flurry.android.FlurryAgent;
+
 import net.alteridem.mileage.adapters.VehicleSpinnerAdapter;
 import net.alteridem.mileage.data.Entry;
 import net.alteridem.mileage.data.Vehicle;
@@ -78,6 +80,7 @@ public class VehicleActivity extends Activity implements VehicleDialog.IVehicleD
         _spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                FlurryAgent.logEvent("switch_vehicle");
                 _currentVehicle = (Vehicle) _spinner.getSelectedItem();
                 saveLastVehicle();
                 loadVehicle();
@@ -90,12 +93,25 @@ public class VehicleActivity extends Activity implements VehicleDialog.IVehicleD
     }
 
     @Override
+    protected void onStart()
+    {
+        super.onStart();
+        FlurryAgent.onStartSession(this, "X844PX4PZFD2RJHV497W");
+    }
+
+    @Override
+    protected void onStop()
+    {
+        super.onStop();
+        FlurryAgent.onEndSession(this);
+    }
+
+    @Override
     protected void onResume()
     {
         super.onResume();
         loadData();
     }
-
 
     @Override
     public void onRestoreInstanceState( Bundle savedInstanceState) {
@@ -145,10 +161,12 @@ public class VehicleActivity extends Activity implements VehicleDialog.IVehicleD
     }
 
     private void showHelp() {
+        FlurryAgent.logEvent("show_help");
         startActivity( new Intent( this, HelpActivity.class ) );
     }
 
     private void showSettings() {
+        FlurryAgent.logEvent("show_settings");
         startActivity( new Intent( this, MileagePreferencesActivity.class ) );
     }
 
@@ -208,6 +226,7 @@ public class VehicleActivity extends Activity implements VehicleDialog.IVehicleD
     }
 
     public void editFillUp(long entry_id) {
+        FlurryAgent.logEvent("edit_fillup");
         Log.d(TAG, "editFillUp");
         Entry entry = Entry.fetch(entry_id);
         if ( entry != null ) {
@@ -217,8 +236,8 @@ public class VehicleActivity extends Activity implements VehicleDialog.IVehicleD
         }
     }
 
-    private void enterFillUp()
-    {
+    private void enterFillUp() {
+        FlurryAgent.logEvent("add_fillup");
         Log.d(TAG, "enterFillUp");
         FragmentManager fm = getFragmentManager();
         EntryDialog dlg = new EntryDialog( _currentVehicle );
@@ -226,6 +245,7 @@ public class VehicleActivity extends Activity implements VehicleDialog.IVehicleD
     }
 
     public void deleteFillUp(long entry_id){
+        FlurryAgent.logEvent("delete_fillup");
         Entry.delete(entry_id);
         Vehicle vehicle = getCurrentVehicle();
         if ( vehicle != null ) {
@@ -234,30 +254,29 @@ public class VehicleActivity extends Activity implements VehicleDialog.IVehicleD
         }
     }
 
-    private void addVehicle()
-    {
+    private void addVehicle() {
+        FlurryAgent.logEvent("add_vehicle");
         Log.d( TAG, "addVehicle" );
         FragmentManager fm = getFragmentManager();
         VehicleDialog dlg = new VehicleDialog();
         dlg.show(fm, "add_vehicle_dialog");
     }
 
-    private void editVehicle()
-    {
+    private void editVehicle() {
+        FlurryAgent.logEvent("edit_vehicle");
         Log.d( TAG, "editVehicle" );
         FragmentManager fm = getFragmentManager();
         VehicleDialog dlg = new VehicleDialog( _currentVehicle );
         dlg.show( fm, "edit_vehicle_dialog" );
     }
 
-    private void deleteVehicle()
-    {
+    private void deleteVehicle() {
+        FlurryAgent.logEvent("delete_vehicle");
         // TODO: Delete the vehicle
         Log.d(TAG, "deleteVehicle");
     }
 
-    public void switchToVehicle(long vehicle_id)
-    {
+    public void switchToVehicle(long vehicle_id) {
         Vehicle v = null;
         for( Vehicle veh : _vehicleList )
         {

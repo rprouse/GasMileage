@@ -65,14 +65,9 @@ public class EntriesFragment extends Fragment {
     }
 
     private void deleteEntry(long id) {
-        Entry.delete(id);
         VehicleActivity activity = (VehicleActivity) getActivity();
         if (activity != null) {
-            Vehicle vehicle = activity.getCurrentVehicle();
-            if ( vehicle != null ) {
-                vehicle.updateLastMileage();
-            }
-            fillEntries(activity.getEntries());
+            activity.deleteFillUp(id);
         }
     }
 
