@@ -2,6 +2,7 @@ package net.alteridem.mileage.fragments;
 
 import android.app.Fragment;
 import android.os.Bundle;
+import android.text.format.DateFormat;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.MenuInflater;
@@ -12,10 +13,12 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 
+import net.alteridem.mileage.MileageApplication;
 import net.alteridem.mileage.R;
 import net.alteridem.mileage.VehicleActivity;
 import net.alteridem.mileage.data.Entry;
 
+import java.text.Format;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -102,8 +105,9 @@ public class EntriesFragment extends Fragment {
     private HashMap<String, String> getEntry(Entry entry) {
         HashMap<String, String> map = new HashMap<String, String>();
         Date date = entry.getFillup_date();
-        // TODO: Use user pref date format
-        String dateStr = String.format("%d/%d/%d", date.getDate(), date.getMonth() + 1, date.getYear());
+        // Use user pref date format
+        Format df = DateFormat.getDateFormat(MileageApplication.getApplication());
+        String dateStr = df.format(date);
         map.put("date", dateStr);
         map.put("kilometers", entry.getDistanceString());
         map.put("liters", entry.getVolumeString());

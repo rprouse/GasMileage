@@ -11,6 +11,9 @@ import net.alteridem.mileage.fragments.DatePickerFragment;
 import net.alteridem.mileage.data.Entry;
 import net.alteridem.mileage.data.Vehicle;
 
+import android.text.format.DateFormat;
+
+import java.text.Format;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -195,7 +198,7 @@ public class EntryDialog extends DialogFragment implements IDateReceiver, TextVi
             return;
         }
 
-        Date d = new Date(_year, _month, _day);
+        Date d = new Date(_year - 1900, _month, _day);
 
         Entry entry = new Entry(v.getId(), d, km, l, "");
         entry.save();
@@ -216,8 +219,10 @@ public class EntryDialog extends DialogFragment implements IDateReceiver, TextVi
     }
 
     private void setDate() {
-        // TODO: Use the user's default date format
-        String dateStr = String.format("%d/%d/%d", _day, _month + 1, _year);
+        // Use the user's default date format
+        Format df = DateFormat.getLongDateFormat(getActivity());
+        Date d = new Date(_year - 1900, _month, _day);
+        String dateStr = df.format(d);
         _datePicker.setText(dateStr);
     }
 }
