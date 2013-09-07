@@ -26,7 +26,9 @@ public class Vehicle {
     static final String QUERY_START = "SELECT v.id, v.name, MIN( e.mileage ), MAX( e.mileage ), AVG( e.mileage ), v.last_mileage FROM vehicle v LEFT OUTER JOIN entry e on e.vehicle_id=v.id ";
     static final String QUERY_GROUP_BY = "GROUP BY v.id";
     static final String QUERY_ALL = QUERY_START + QUERY_GROUP_BY;
-    static final String QUERY_ONE = QUERY_START + " WHERE v.id=? " +QUERY_GROUP_BY;
+    static final String QUERY_ONE = QUERY_START + " WHERE v.id=? " + QUERY_GROUP_BY;
+
+    static final String QUERY_LAST_MILEAGE = "SELECT " + Entry.C_MILEAGE + " FROM " + Entry.TABLE + " WHERE " + Entry.C_VEHICLE_ID + "=? ORDER BY " + Entry.C_FILLUP_DATE + " DESC";
 
     private long id;
     private String name;
@@ -128,9 +130,23 @@ public class Vehicle {
      * Updates the last mileage value for a given vehicle
      * @param db The database to use
      * @param id The id of the vehicle to update
-     * @param mileage The last mileage to update
      */
-    public static void updateLastMileage(SQLiteDatabase db, long id, double mileage ) {
+    public static void updateLastMileage( SQLiteDatabase db, long id ) {
+        // Issue 24 - Last mileage might not be
+        // Calculate the last mileage
+        double mileage = 0;
+        Cursor cursor = db.rawQuery(QUERY_LAST_MILEAGE, new String[]{String.valueOf(id)});
+        try {
+            if (cursor.moveToNext()) {
+                mileage = cursor.getDouble(0);
+            }
+        } finally {
+            cursor.close();
+        }
+        updateLastMileage( db, id, mileage );
+    }
+
+    private static void updateLastMileage(SQLiteDatabase db, long id, double mileage ) {
         ContentValues values = new ContentValues();
         values.put(C_LAST_MILEAGE, mileage);
 
