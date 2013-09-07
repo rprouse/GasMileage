@@ -2,7 +2,6 @@ package net.alteridem.mileage.fragments;
 
 import android.app.Fragment;
 import android.os.Bundle;
-import android.text.format.DateFormat;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.MenuInflater;
@@ -11,24 +10,21 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.SimpleAdapter;
 
-import net.alteridem.mileage.MileageApplication;
 import net.alteridem.mileage.R;
 import net.alteridem.mileage.VehicleActivity;
+import net.alteridem.mileage.adapters.EntriesAdapter;
 import net.alteridem.mileage.data.Entry;
+import net.alteridem.mileage.data.Vehicle;
 
-import java.text.Format;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 
 /**
  * Created by Robert Prouse on 13/06/13.
  */
 public class EntriesFragment extends Fragment {
-    ListView vehicle_entries;
+    ListView _vehicleEntries;
+    EntriesAdapter _adapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -45,30 +41,46 @@ public class EntriesFragment extends Fragment {
     @Override
     public boolean onContextItemSelected(MenuItem item) {
         AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
-        switch (item.getItemId()) {
-            case R.id.entry_menu_edit:
-                editEntry(info.id);
-                return true;
-            case R.id.entry_menu_delete:
-                deleteEntry(info.id);
-                return true;
+        if ( info != null ) {
+            long entry_id = _adapter.getItemId(info.position);
+            if ( entry_id >= 0 ) {
+                switch (item.getItemId()) {
+                    case R.id.entry_menu_edit:
+                        editEntry(entry_id);
+                        return true;
+                    case R.id.entry_menu_delete:
+                        deleteEntry(entry_id);
+                        return true;
+                }
+            }
         }
         return super.onContextItemSelected(item);
     }
 
     private void editEntry(long id) {
-
+        VehicleActivity activity = (VehicleActivity) getActivity();
+        if (activity != null) {
+            activity.editFillUp(id);
+        }
     }
 
     private void deleteEntry(long id) {
-
+        Entry.delete(id);
+        VehicleActivity activity = (VehicleActivity) getActivity();
+        if (activity != null) {
+            Vehicle vehicle = activity.getCurrentVehicle();
+            if ( vehicle != null ) {
+                vehicle.updateLastMileage();
+            }
+            fillEntries(activity.getEntries());
+        }
     }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        vehicle_entries = (ListView) getActivity().findViewById(R.id.vehicle_entries);
-        registerForContextMenu(vehicle_entries);
+        _vehicleEntries = (ListView) getActivity().findViewById(R.id.vehicle_entries);
+        registerForContextMenu(_vehicleEntries);
         fillEntries();
     }
 
@@ -80,38 +92,11 @@ public class EntriesFragment extends Fragment {
     }
 
     public void fillEntries(List<Entry> entries) {
-        if (entries == null)
+        if (entries == null || getActivity() == null )
             return;
-
-        if (getActivity() == null)
-            return;
-
-        // create the grid item mapping
-        String[] from = new String[]{"date", "kilometers", "liters", "mileage"};
-        int[] to = new int[]{R.id.entry_date, R.id.entry_kilometers, R.id.entry_liters, R.id.entry_mileage};
-
-        // prepare the list of all records
-        List<HashMap<String, String>> fillMaps = new ArrayList<HashMap<String, String>>();
-
-        for (Entry entry : entries) {
-            fillMaps.add(getEntry(entry));
-        }
 
         // fill in the grid_item layout
-        SimpleAdapter adapter = new SimpleAdapter(getActivity(), fillMaps, R.layout.entry, from, to);
-        vehicle_entries.setAdapter(adapter);
-    }
-
-    private HashMap<String, String> getEntry(Entry entry) {
-        HashMap<String, String> map = new HashMap<String, String>();
-        Date date = entry.getFillup_date();
-        // Use user pref date format
-        Format df = DateFormat.getDateFormat(MileageApplication.getApplication());
-        String dateStr = df.format(date);
-        map.put("date", dateStr);
-        map.put("kilometers", entry.getDistanceString());
-        map.put("liters", entry.getVolumeString());
-        map.put("mileage", entry.getMileageString());
-        return map;
+        _adapter = new EntriesAdapter(getActivity(), entries);
+        _vehicleEntries.setAdapter(_adapter);
     }
 }

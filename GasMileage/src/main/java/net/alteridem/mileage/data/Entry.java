@@ -142,16 +142,40 @@ public class Entry {
             id = db.insertOrThrow(TABLE, null, values);
             Log.d(TAG, String.format("Inserted entry %d", id));
         } else {
-            db.update(TABLE, values, "id=" + id, null);
+            db.update(TABLE, values, "id=?", new String[] { String.valueOf(id) });
             Log.d(TAG, String.format("Updated entry %d", id));
         }
         Vehicle.updateLastMileage(db, vehicle_id);
     }
 
+    public static void delete(long id) {
+        if( id < 0 ) return; // Nothing to delete
+        SQLiteDatabase db = MileageApplication.getApplication().getDbHelper().getWritableDatabase();
+        try {
+            db.delete(TABLE, "id=?", new String[] { String.valueOf(id) });
+            Log.d(TAG, String.format("Deleted entry %d", id));
+        } finally {
+            db.close();
+        }
+    }
+
+    public static Entry fetch(long id) {
+        SQLiteDatabase db = MileageApplication.getApplication().getDbHelper().getWritableDatabase();
+        try {
+            Cursor cursor = db.query(TABLE, COLUMNS, "id=?", new String[] { String.valueOf(id) }, null, null, null);
+            if ( cursor.moveToNext()) {
+                return new Entry(cursor);
+            }
+        } finally {
+            db.close();
+        }
+        return null;
+    }
+
     public static List<Entry> fetchAll(long vehicle_id) {
         SQLiteDatabase db = MileageApplication.getApplication().getDbHelper().getWritableDatabase();
         try {
-            Cursor cursor = db.query(TABLE, COLUMNS, "vehicle_id=" + vehicle_id, null, null, null, ORDER_BY);
+            Cursor cursor = db.query(TABLE, COLUMNS, "vehicle_id=?", new String[] { String.valueOf(vehicle_id) }, null, null, ORDER_BY);
             return createEntryList(cursor);
         } finally {
             db.close();

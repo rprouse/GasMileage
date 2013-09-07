@@ -207,12 +207,31 @@ public class VehicleActivity extends Activity implements VehicleDialog.IVehicleD
         edit.commit();
     }
 
+    public void editFillUp(long entry_id) {
+        Log.d(TAG, "editFillUp");
+        Entry entry = Entry.fetch(entry_id);
+        if ( entry != null ) {
+            FragmentManager fm = getFragmentManager();
+            EntryDialog dlg = new EntryDialog( _currentVehicle, entry );
+            dlg.show(fm, "entry_edit_dialog");
+        }
+    }
+
     private void enterFillUp()
     {
         Log.d(TAG, "enterFillUp");
         FragmentManager fm = getFragmentManager();
         EntryDialog dlg = new EntryDialog( _currentVehicle );
         dlg.show(fm, "entry_dialog");
+    }
+
+    public void deleteFillUp(long entry_id){
+        Entry.delete(entry_id);
+        Vehicle vehicle = getCurrentVehicle();
+        if ( vehicle != null ) {
+            vehicle.updateLastMileage();
+            switchToVehicle( vehicle.getId() );
+        }
     }
 
     private void addVehicle()

@@ -121,8 +121,21 @@ public class Vehicle {
             id = db.insertOrThrow(TABLE, null, values);
             Log.d(TAG, String.format("Inserted vehicle %s with id %d", name, id));
         } else {
-            db.update(TABLE, values, "id=" + id, null);
+            db.update(TABLE, values, "id=?", new String[] { String.valueOf(id) });
             Log.d(TAG, String.format("Updated vehicle %s with id %d", name, id));
+        }
+    }
+
+
+    /**
+     * Updates the last mileage value for this vehicle
+     */
+    public void updateLastMileage() {
+        SQLiteDatabase db = MileageApplication.getApplication().getDbHelper().getWritableDatabase();
+        try {
+            Vehicle.updateLastMileage(db, getId());
+        } finally {
+            db.close();
         }
     }
 
@@ -150,7 +163,7 @@ public class Vehicle {
         ContentValues values = new ContentValues();
         values.put(C_LAST_MILEAGE, mileage);
 
-        db.update(TABLE, values, "id=" + id, null);
+        db.update(TABLE, values, "id=?", new String[] { String.valueOf(id) });
         Log.d(TAG, String.format("Updated vehicle %d", id));
     }
 

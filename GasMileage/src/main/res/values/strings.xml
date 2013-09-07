@@ -54,6 +54,10 @@
     <!-- Entry Dialog -->
     <string name="entry_dialog_title">Fill-Up</string>
 
+    <!-- Delete Vehicle Dialog -->
+    <string name="delete_vehicle_dialog_title">Delete this vehicle?</string>
+    <string name="delete_vehicle_dialog_text">This will delete this vehicle and all of it\'s fill-ups. This cannot be undone.</string>
+
     <!-- Vehicle Dialog -->
     <string name="vehicle_dialog_add_title">Add Vehicle</string>
     <string name="vehicle_dialog_edit_title">Edit Vehicle</string>

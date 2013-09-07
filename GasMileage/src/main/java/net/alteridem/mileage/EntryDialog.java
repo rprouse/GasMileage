@@ -31,6 +31,7 @@ public class EntryDialog extends DialogFragment implements IDateReceiver, TextVi
 
     List<Vehicle> _vehicleList;
     Vehicle _vehicle; // The current vehicle
+    Entry _entry; // The current entry, this is null if new
     Spinner _vehicleSpinner;
     EditText _kilometers;
     Spinner _kilometersUnit;
@@ -44,6 +45,14 @@ public class EntryDialog extends DialogFragment implements IDateReceiver, TextVi
     public EntryDialog(Vehicle vehicle) {
         setDefaultDate();
         _vehicle = vehicle;
+    }
+
+    public EntryDialog(Vehicle vehicle, Entry entry) {
+        _vehicle = vehicle;
+        _entry = entry;
+        _year = entry.getFillup_date().getYear() + 1900;
+        _month = entry.getFillup_date().getMonth();
+        _day = entry.getFillup_date().getDay() + 1;
     }
 
     @Override
@@ -105,6 +114,12 @@ public class EntryDialog extends DialogFragment implements IDateReceiver, TextVi
         _kilometers.requestFocus();
         getDialog().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
         _liters.setOnEditorActionListener(this);
+
+        // Set values when in edit mode
+        if (_entry != null) {
+            _liters.setText(String.valueOf(Convert.volume(_entry.getLitres())));
+            _kilometers.setText(String.valueOf(Convert.distance(_entry.getKilometers())));
+        }
 
         return view;
     }
@@ -186,9 +201,10 @@ public class EntryDialog extends DialogFragment implements IDateReceiver, TextVi
             } else if (_litersUnit.getSelectedItemPosition() == 2) {
                 l = Convert.gallonsToLiters(l, Convert.Gallons.Imperial);
             }
-        } catch (NumberFormatException nfe) {}
+        } catch (NumberFormatException nfe) {
+        }
 
-        if ( km <= 0 || l <= 0 ) {
+        if (km <= 0 || l <= 0) {
             if (km <= 0) {
                 _kilometers.setError(getString(R.string.number_error));
             }
@@ -201,6 +217,9 @@ public class EntryDialog extends DialogFragment implements IDateReceiver, TextVi
         Date d = new Date(_year - 1900, _month, _day);
 
         Entry entry = new Entry(v.getId(), d, km, l, "");
+        if ( _entry != null ) {
+            entry.setId(_entry.getId());
+        }
         entry.save();
 
         // Call back to the activity
