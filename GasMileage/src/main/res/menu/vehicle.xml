@@ -20,4 +20,7 @@
           android:icon="@drawable/ic_menu_preferences"
           android:showAsAction="never" />
 
+    <item android:id="@+id/menu_help"
+        android:title="@string/menu_help" />
+
 </menu>

@@ -134,11 +134,22 @@ public class VehicleActivity extends Activity implements VehicleDialog.IVehicleD
             case R.id.menu_delete_vehicle:
                 deleteVehicle();
                 break;
+            case R.id.menu_help:
+                showHelp();
+                break;
             case R.id.menu_settings:
-                startActivity( new Intent( this, MileagePreferencesActivity.class ) );
+                showSettings();
                 break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void showHelp() {
+        startActivity( new Intent( this, HelpActivity.class ) );
+    }
+
+    private void showSettings() {
+        startActivity( new Intent( this, MileagePreferencesActivity.class ) );
     }
 
     public Vehicle getCurrentVehicle()

@@ -28,6 +28,10 @@
             android:name=".MileagePreferencesActivity"
             android:label="@string/prefs_title" >
         </activity>
+
+        <activity
+            android:name=".HelpActivity"
+            android:label="@string/help_title" />
     </application>
 
 </manifest>
