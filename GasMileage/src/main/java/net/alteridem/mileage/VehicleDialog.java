@@ -79,6 +79,11 @@ public class VehicleDialog extends DialogFragment implements TextView.OnEditorAc
     private void closeDialog() {
         // Save the vehicle
         String name = _vehicleName.getText().toString();
+        if ( name.isEmpty() ) {
+            _vehicleName.setError(getString(R.string.string_error));
+            return;
+        }
+
         if (_vehicle == null) {
             _vehicle = new Vehicle(name);
         } else {

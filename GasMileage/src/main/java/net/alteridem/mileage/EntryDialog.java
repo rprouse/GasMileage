@@ -174,10 +174,6 @@ public class EntryDialog extends DialogFragment implements IDateReceiver, TextVi
             }
         } catch (NumberFormatException nfe) {
         }
-        if (km == 0) {
-            // TODO: Display error message?
-            return;
-        }
 
         double l = 0;
         try {
@@ -189,8 +185,13 @@ public class EntryDialog extends DialogFragment implements IDateReceiver, TextVi
             }
         } catch (NumberFormatException nfe) {}
 
-        if (l == 0) {
-            // TODO: Display error message?
+        if ( km <= 0 || l <= 0 ) {
+            if (km <= 0) {
+                _kilometers.setError(getString(R.string.number_error));
+            }
+            if (l <= 0) {
+                _liters.setError(getString(R.string.number_error));
+            }
             return;
         }
 

@@ -9,6 +9,8 @@
     <string name="add">Add</string>
     <string name="edit">Edit</string>
     <string name="delete">Delete</string>
+    <string name="number_error">Must be greater than 0</string>
+    <string name="string_error">Please enter a value</string>
 
     <!-- Default values -->
     <string name="default_vehicle">My Car</string>
