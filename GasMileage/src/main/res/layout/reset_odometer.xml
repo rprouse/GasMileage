@@ -4,14 +4,16 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="5dp"
     android:gravity="center">
 
-    <LinearLayout
-        android:background="@drawable/odometer_grey"
+    <ImageView
+        android:contentDescription="@string/reset_dialog_title"
+        android:src="@drawable/odometer_grey"
         android:orientation="vertical"
+        android:scaleType="center"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp" />
 
     <CheckBox
         android:layout_width="wrap_content"
