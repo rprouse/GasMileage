@@ -185,6 +185,5 @@ public class Entry {
     }
 
     static void upgradeTable(SQLiteDatabase db, int oldVersion, int newVersion) {
-        createTable(db);
     }
 }

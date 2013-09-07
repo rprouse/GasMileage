@@ -10,6 +10,9 @@
     <string name="edit">Edit</string>
     <string name="delete">Delete</string>
 
+    <!-- Default values -->
+    <string name="default_vehicle">My Car</string>
+
     <!-- VehicleActivity -->
     <string name="vehicle_unknown">Unknown</string>
     <string name="vehicle_statistics">Statistics</string>

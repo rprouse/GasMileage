@@ -23,7 +23,7 @@ public class Vehicle {
     static final String C_LAST_MILEAGE = "last_mileage";
     static final String[] COLUMNS = {C_ID, C_NAME, C_LAST_MILEAGE};
 
-    static final String QUERY_START = "SELECT v.id, v.name, MIN( e.mileage ), MAX( e.mileage ), AVG( e.mileage ), v.last_mileage FROM vehicle v INNER JOIN entry e on e.vehicle_id=v.id ";
+    static final String QUERY_START = "SELECT v.id, v.name, MIN( e.mileage ), MAX( e.mileage ), AVG( e.mileage ), v.last_mileage FROM vehicle v LEFT OUTER JOIN entry e on e.vehicle_id=v.id ";
     static final String QUERY_GROUP_BY = "GROUP BY v.id";
     static final String QUERY_ALL = QUERY_START + QUERY_GROUP_BY;
     static final String QUERY_ONE = QUERY_START + " WHERE v.id=? " +QUERY_GROUP_BY;
@@ -201,6 +201,5 @@ public class Vehicle {
     }
 
     static void upgradeTable(SQLiteDatabase db, int oldVersion, int newVersion) {
-        createTable(db);
     }
 }

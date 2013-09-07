@@ -5,7 +5,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
-import java.util.Date;
+import net.alteridem.mileage.R;
 
 /**
  * Created by Robert Prouse on 13/06/13.
@@ -26,22 +26,10 @@ public class DbHelper extends SQLiteOpenHelper {
         Vehicle.createTable(db);
         Entry.createTable(db);
 
-        // Insert some test data
-        Vehicle mazda = new Vehicle("2005 Mazda 6");
-        mazda.save(db);
-
-        new Entry(mazda.getId(), new Date(2010, 10, 16), 406.9, 43.898, "").save(db);
-        new Entry(mazda.getId(), new Date(2010, 11, 5), 550.3, 60.365, "").save(db);
-        new Entry(mazda.getId(), new Date(2010, 11, 14), 490.7, 60.396, "").save(db);
-        new Entry(mazda.getId(), new Date(2011, 1, 27), 502.5, 58.592, "").save(db);
-
-        Vehicle rabbit = new Vehicle("2008 VW Rabbit");
-        rabbit.save(db);
-
-        new Entry(rabbit.getId(), new Date(2011, 9, 11), 524.6, 47.537, "").save(db);
-        new Entry(rabbit.getId(), new Date(2011, 11, 14), 527.4, 44.324, "").save(db);
-        new Entry(rabbit.getId(), new Date(2011, 11, 17), 521.4, 46.594, "").save(db);
-        new Entry(rabbit.getId(), new Date(2011, 11, 22), 469.4, 40.968, "").save(db);
+        // Insert some default data
+        String name = context.getString(R.string.default_vehicle );
+        Vehicle vehicle = new Vehicle(name);
+        vehicle.save(db);
     }
 
     @Override
