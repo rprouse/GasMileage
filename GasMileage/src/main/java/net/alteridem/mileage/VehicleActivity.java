@@ -3,8 +3,10 @@ package net.alteridem.mileage;
 
 import android.app.ActionBar;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Fragment;
 import android.app.FragmentManager;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -272,7 +274,27 @@ public class VehicleActivity extends Activity implements VehicleDialog.IVehicleD
 
     private void deleteVehicle() {
         FlurryAgent.logEvent("delete_vehicle");
-        // TODO: Delete the vehicle
+        // Can't delete the last vehicle
+        if( _vehicleList.size() <= 1 ) {
+            new AlertDialog.Builder(this)
+                    .setTitle(R.string.delete_vehicle_dialog_title)
+                    .setMessage(R.string.delete_vehicle_dialog_cant_delete)
+                    .setPositiveButton(R.string.ok, null)
+                    .show();
+        } else {
+            // Are you sure?
+            new AlertDialog.Builder(this)
+                    .setTitle(R.string.delete_vehicle_dialog_title)
+                    .setMessage(R.string.delete_vehicle_dialog_text)
+                    .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            _currentVehicle.delete();
+                            loadData();
+                        }
+                    })
+                    .setNegativeButton(R.string.cancel, null)
+                    .show();
+        }
         Log.d(TAG, "deleteVehicle");
     }
 

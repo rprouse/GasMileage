@@ -121,7 +121,7 @@ public class Vehicle {
             id = db.insertOrThrow(TABLE, null, values);
             Log.d(TAG, String.format("Inserted vehicle %s with id %d", name, id));
         } else {
-            db.update(TABLE, values, "id=?", new String[] { String.valueOf(id) });
+            db.update(TABLE, values, C_ID+"=?", new String[] { String.valueOf(id) });
             Log.d(TAG, String.format("Updated vehicle %s with id %d", name, id));
         }
     }
@@ -163,8 +163,8 @@ public class Vehicle {
         ContentValues values = new ContentValues();
         values.put(C_LAST_MILEAGE, mileage);
 
-        db.update(TABLE, values, "id=?", new String[] { String.valueOf(id) });
-        Log.d(TAG, String.format("Updated vehicle %d", id));
+        db.update(TABLE, values, C_ID+"=?", new String[] { String.valueOf(id) });
+        Log.d(TAG, String.format("Updated last mileage for vehicle %d", id));
     }
 
     public static List<Vehicle> fetchAll() {
@@ -202,6 +202,16 @@ public class Vehicle {
         }
         return vehicle;
     }
+    
+    public void delete() {
+        SQLiteDatabase db = MileageApplication.getApplication().getDbHelper().getWritableDatabase();
+        try {
+            db.delete( TABLE, C_ID+"=?", new String[]{String.valueOf(id)});
+            db.delete( Entry.TABLE, Entry.C_VEHICLE_ID + "=?", new String[]{String.valueOf(id)});
+        } finally {
+            db.close();
+        }        
+    }
 
     public void reload() {
         SQLiteDatabase db = MileageApplication.getApplication().getDbHelper().getWritableDatabase();
@@ -218,7 +228,6 @@ public class Vehicle {
             db.close();
         }
     }
-
 
     static void createTable(SQLiteDatabase db) {
         String sql = "CREATE TABLE IF NOT EXISTS " + TABLE +
