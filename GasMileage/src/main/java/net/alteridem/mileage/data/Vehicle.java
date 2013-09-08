@@ -88,6 +88,14 @@ public class Vehicle {
         return this.entries;
     }
 
+    public double getBestMileageUnconverted() {
+        return bestMileage;
+    }
+
+    public double getWorstMileageUnconverted() {
+        return worstMileage;
+    }
+
     public double getBestMileage() {
         return Convert.mileage(bestMileage);
     }

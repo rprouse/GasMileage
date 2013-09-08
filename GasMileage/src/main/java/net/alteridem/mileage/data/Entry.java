@@ -36,7 +36,6 @@ public class Entry {
     private long vehicle_id;
     private double litres;
     private double kilometers;
-    private double _average_mileage;
     private double _min_mileage;
     private double _max_mileage;
     private Date fillup_date;
@@ -59,9 +58,8 @@ public class Entry {
         fillup_date = new Date(cursor.getLong(4));
         note = cursor.getString(6);
         if (vehicle != null ) {
-            _average_mileage = vehicle.getAverageMileage();
-            _max_mileage = vehicle.getBestMileage();
-            _min_mileage = vehicle.getWorstMileage();
+            _max_mileage = vehicle.getBestMileageUnconverted();
+            _min_mileage = vehicle.getWorstMileageUnconverted();
         }
     }
 
@@ -114,14 +112,20 @@ public class Entry {
     }
 
     public int getColor() {
-        int color = Color.YELLOW;
         double mileage = getMileage();
-        if ( mileage < _average_mileage ) {
-            color = Color.RED;
-        } else if ( mileage > _average_mileage ) {
-            color = Color.GREEN;
+        // Working in l/100km, so lower numbers are better
+        double half = (_min_mileage - _max_mileage)/2.0;
+        double mid = _max_mileage + half;
+        int red = 0xFF;
+        int green = 0xFF;
+        if ( mileage < mid ) {
+            double diff = mid - mileage;
+            red = 0xFF - (int)((diff / half) * 0xFF);
+        } else if ( mileage > mid ) {
+            double diff = mileage - mid;
+            green = 0xFF - (int)((diff / half) * 0xFF);
         }
-        return color;
+        return Color.argb( 0xFF, red, green, 0x00 );
     }
 
     public double getMileage() {

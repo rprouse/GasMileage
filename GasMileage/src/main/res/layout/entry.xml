@@ -6,7 +6,8 @@
               android:orientation="horizontal">
 
     <AbsoluteLayout android:layout_height="fill_parent"
-           android:layout_width="15dp"
+           android:layout_width="10dp"
+           android:layout_marginRight="5dp"
            android:id="@+id/entry_color" />
 
     <TextView
