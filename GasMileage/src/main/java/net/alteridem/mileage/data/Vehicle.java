@@ -186,21 +186,24 @@ public class Vehicle {
     }
 
     public static Vehicle fetch(long id) {
-        Vehicle vehicle = null;
         SQLiteDatabase db = MileageApplication.getApplication().getDbHelper().getWritableDatabase();
         try {
-            Cursor cursor = db.rawQuery(QUERY_ONE, new String[]{String.valueOf(id)});
-            try {
-                if (cursor.moveToFirst()) {
-                    vehicle = new Vehicle(cursor);
-                }
-            } finally {
-                cursor.close();
-            }
+            return fetch(db, id);
         } finally {
             db.close();
         }
-        return vehicle;
+    }
+
+    public static Vehicle fetch(SQLiteDatabase db, long id) {
+        Cursor cursor = db.rawQuery(QUERY_ONE, new String[]{String.valueOf(id)});
+        try {
+            if (cursor.moveToFirst()) {
+                return new Vehicle(cursor);
+            }
+        } finally {
+            cursor.close();
+        }
+        return null;
     }
     
     public void delete() {

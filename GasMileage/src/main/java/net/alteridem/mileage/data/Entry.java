@@ -29,10 +29,15 @@ public class Entry {
     static final String[] COLUMNS = {C_ID, C_VEHICLE_ID, C_LITRES, C_KILOMETERS, C_FILLUP_DATE, C_MILEAGE, C_NOTE};
     static final String ORDER_BY = C_FILLUP_DATE + " DESC";
 
+    static final String AVERAGE_QUERY = "select AVG(" + C_MILEAGE +") from " + TABLE + " where " + C_VEHICLE_ID + "=?";
+
     private long id;
     private long vehicle_id;
     private double litres;
     private double kilometers;
+    private double _average_mileage;
+    private double _min_mileage;
+    private double _max_mileage;
     private Date fillup_date;
     private String note;
 
@@ -45,13 +50,18 @@ public class Entry {
         this.vehicle_id = vehicle_id;
     }
 
-    public Entry(Cursor cursor) {
+    public Entry(Cursor cursor, Vehicle vehicle ) {
         id = cursor.getInt(0);
         vehicle_id = cursor.getInt(1);
         litres = cursor.getDouble(2);
         kilometers = cursor.getDouble(3);
         fillup_date = new Date(cursor.getLong(4));
         note = cursor.getString(6);
+        if (vehicle != null ) {
+            _average_mileage = vehicle.getAverageMileage();
+            _max_mileage = vehicle.getBestMileage();
+            _min_mileage = vehicle.getWorstMileage();
+        }
     }
 
     public Date getFillup_date() {
@@ -164,7 +174,9 @@ public class Entry {
         try {
             Cursor cursor = db.query(TABLE, COLUMNS, C_ID+"=?", new String[] { String.valueOf(id) }, null, null, null);
             if ( cursor.moveToNext()) {
-                return new Entry(cursor);
+                long vehicle_id = cursor.getInt(1);
+                Vehicle vehicle = Vehicle.fetch(db, vehicle_id);
+                return new Entry(cursor, vehicle);
             }
         } finally {
             db.close();
@@ -175,24 +187,24 @@ public class Entry {
     public static List<Entry> fetchAll(long vehicle_id) {
         SQLiteDatabase db = MileageApplication.getApplication().getDbHelper().getWritableDatabase();
         try {
+            Vehicle vehicle = Vehicle.fetch(db, vehicle_id);
             Cursor cursor = db.query(TABLE, COLUMNS, "vehicle_id=?", new String[] { String.valueOf(vehicle_id) }, null, null, ORDER_BY);
-            return createEntryList(cursor);
+            return createEntryList(cursor, vehicle);
         } finally {
             db.close();
         }
     }
 
-    private static List<Entry> createEntryList(Cursor cursor) {
+    private static List<Entry> createEntryList(Cursor cursor, Vehicle vehicle) {
         List<Entry> entries = new ArrayList<Entry>();
         try {
             while (cursor.moveToNext()) {
-                entries.add(new Entry(cursor));
+                entries.add(new Entry(cursor, vehicle));
             }
         } finally {
             cursor.close();
         }
         return entries;
-
     }
 
     static void createTable(SQLiteDatabase db) {
