@@ -60,6 +60,7 @@ public class EntriesAdapter extends BaseAdapter implements ListAdapter {
         }
         Entry entry = (Entry)getItem(i);
         if ( view != null && entry != null) {
+            View color = (View) view.findViewById(R.id.entry_color);
             TextView date = (TextView) view.findViewById(R.id.entry_date);
             TextView kilometers = (TextView) view.findViewById(R.id.entry_kilometers);
             TextView liters = (TextView) view.findViewById(R.id.entry_liters);
@@ -73,6 +74,7 @@ public class EntriesAdapter extends BaseAdapter implements ListAdapter {
             kilometers.setText(entry.getDistanceString());
             liters.setText(entry.getVolumeString());
             mileage.setText(entry.getMileageString());
+            color.setBackgroundColor(entry.getColor());
         }
         return view;
     }

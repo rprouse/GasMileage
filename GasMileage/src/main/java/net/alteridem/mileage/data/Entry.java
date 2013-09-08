@@ -3,6 +3,7 @@ package net.alteridem.mileage.data;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Color;
 import android.util.Log;
 
 import net.alteridem.mileage.Convert;
@@ -112,6 +113,17 @@ public class Entry {
         this.vehicle_id = vehicle_id;
     }
 
+    public int getColor() {
+        int color = Color.YELLOW;
+        double mileage = getMileage();
+        if ( mileage < _average_mileage ) {
+            color = Color.RED;
+        } else if ( mileage > _average_mileage ) {
+            color = Color.GREEN;
+        }
+        return color;
+    }
+
     public double getMileage() {
         return litres / (kilometers / (double) 100);
     }
@@ -172,7 +184,7 @@ public class Entry {
     public static Entry fetch(long id) {
         SQLiteDatabase db = MileageApplication.getApplication().getDbHelper().getWritableDatabase();
         try {
-            Cursor cursor = db.query(TABLE, COLUMNS, C_ID+"=?", new String[] { String.valueOf(id) }, null, null, null);
+            Cursor cursor = db.query(TABLE, COLUMNS, C_ID + "=?", new String[]{String.valueOf(id)}, null, null, null);
             if ( cursor.moveToNext()) {
                 long vehicle_id = cursor.getInt(1);
                 Vehicle vehicle = Vehicle.fetch(db, vehicle_id);

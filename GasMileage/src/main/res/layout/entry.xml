@@ -4,6 +4,11 @@
               android:layout_width="fill_parent"
               android:layout_height="wrap_content"
               android:orientation="horizontal">
+
+    <AbsoluteLayout android:layout_height="fill_parent"
+           android:layout_width="15dp"
+           android:id="@+id/entry_color" />
+
     <TextView
             android:layout_height="fill_parent"
             android:layout_width="0px"
