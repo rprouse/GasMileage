@@ -8,6 +8,7 @@
 
 <ListView android:layout_width="match_parent"
           android:layout_height="match_parent"
-          android:id="@+id/vehicle_entries" />
+          android:id="@+id/vehicle_entries"
+    listitem="@layout/entry" />
 
 </LinearLayout>
