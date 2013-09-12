@@ -2,6 +2,14 @@ Gas Mileage calculates your vehicle's fuel economy. Tracking your fuel usage hel
 
 Other mileage tracking applications require you to add entries every time you fill up and if you forget, it is difficult to catch up. Gas Mileage is different, just remember to reset your odometer every time you fill up your tank and then add entries when you remember.
 
+Features
+
+- Enter and display values in any common unit
+- List of fill-ups are color coded based on the mileage
+- Supports as many vehicles as you like
+- Shows your best mileage, average mileage, worst mileage and the last mileage you entered
+- Easily edit, delete or update any of your fill-ups
+
 To start using the application,
 
 1 - Fill-up your car and reset your odometer. Do not enter a reading.
