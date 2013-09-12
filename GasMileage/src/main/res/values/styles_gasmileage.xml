@@ -29,8 +29,6 @@
         <item name="android:actionModeBackground">@drawable/cab_background_top_gasmileage</item>
         <item name="android:actionModeSplitBackground">@drawable/cab_background_bottom_gasmileage</item>
         <item name="android:actionModeCloseButtonStyle">@style/ActionButton.CloseMode.Gasmileage</item>
-        
-        
     </style>
 
     <style name="ActionBar.Solid.Gasmileage" parent="@android:style/Widget.Holo.Light.ActionBar.Solid">
