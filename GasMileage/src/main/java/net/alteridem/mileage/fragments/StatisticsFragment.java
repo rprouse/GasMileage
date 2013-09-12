@@ -32,12 +32,12 @@ public class StatisticsFragment extends Fragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-//        vehicle_statistics = (ListView) getActivity().findViewById(R.id.vehicle_statistics);
-//
-//        VehicleActivity activity = (VehicleActivity) getActivity();
-//        if (activity != null) {
-//            fillStatistics(activity.getCurrentVehicle());
-//        }
+        ListView vehicle_statistics = (ListView) getActivity().findViewById(R.id.vehicle_statistics);
+
+        VehicleActivity activity = (VehicleActivity) getActivity();
+        if (activity != null) {
+            fillStatistics(activity.getCurrentVehicle());
+        }
     }
 
     public void fillStatistics(Vehicle vehicle) {

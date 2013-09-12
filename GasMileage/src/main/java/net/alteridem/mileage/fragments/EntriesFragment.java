@@ -74,9 +74,10 @@ public class EntriesFragment extends Fragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-//        _vehicleEntries = (ListView) getActivity().findViewById(R.id.vehicle_entries);
-//        registerForContextMenu(_vehicleEntries);
-//        fillEntries();
+
+        ListView vehicleEntries = (ListView) getActivity().findViewById(R.id.vehicle_entries);
+        registerForContextMenu(vehicleEntries);
+        fillEntries();
     }
 
     private void fillEntries() {
