@@ -22,7 +22,7 @@ import java.util.List;
  * Created by Robert Prouse on 13/06/13.
  */
 public class StatisticsFragment extends Fragment {
-    ListView vehicle_statistics;
+    //ListView vehicle_statistics;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -32,12 +32,12 @@ public class StatisticsFragment extends Fragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        vehicle_statistics = (ListView) getActivity().findViewById(R.id.vehicle_statistics);
-
-        VehicleActivity activity = (VehicleActivity) getActivity();
-        if (activity != null) {
-            fillStatistics(activity.getCurrentVehicle());
-        }
+//        vehicle_statistics = (ListView) getActivity().findViewById(R.id.vehicle_statistics);
+//
+//        VehicleActivity activity = (VehicleActivity) getActivity();
+//        if (activity != null) {
+//            fillStatistics(activity.getCurrentVehicle());
+//        }
     }
 
     public void fillStatistics(Vehicle vehicle) {
@@ -46,6 +46,8 @@ public class StatisticsFragment extends Fragment {
 
         if (getActivity() == null)
             return;
+
+        ListView vehicle_statistics = (ListView) getActivity().findViewById(R.id.vehicle_statistics);
 
         // create the grid item mapping
         String[] from = new String[]{"label", "value"};

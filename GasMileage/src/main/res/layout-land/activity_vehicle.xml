@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:baselineAligned="false">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_weight="1"
+        android:layout_width="0dp"
+        android:layout_height="match_parent">
+
+        <Spinner
+            android:id="@+id/vehicle_name"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_marginBottom="10dip" />
+
+        <fragment
+            android:name="net.alteridem.mileage.fragments.StatisticsFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:id="@+id/fragment_statistics"
+            tools:layout="@layout/fragment_statistics" />
+
+    </LinearLayout>
+
+    <fragment
+        android:name="net.alteridem.mileage.fragments.EntriesFragment"
+        android:layout_weight="1"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:id="@+id/fragment_entries"
+        tools:layout="@layout/fragment_entries" />
+
+</LinearLayout>

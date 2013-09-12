@@ -23,7 +23,7 @@ import java.util.List;
  * Created by Robert Prouse on 13/06/13.
  */
 public class EntriesFragment extends Fragment {
-    ListView _vehicleEntries;
+    //ListView _vehicleEntries;
     EntriesAdapter _adapter;
 
     @Override
@@ -74,9 +74,9 @@ public class EntriesFragment extends Fragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        _vehicleEntries = (ListView) getActivity().findViewById(R.id.vehicle_entries);
-        registerForContextMenu(_vehicleEntries);
-        fillEntries();
+//        _vehicleEntries = (ListView) getActivity().findViewById(R.id.vehicle_entries);
+//        registerForContextMenu(_vehicleEntries);
+//        fillEntries();
     }
 
     private void fillEntries() {
@@ -90,8 +90,10 @@ public class EntriesFragment extends Fragment {
         if (entries == null || getActivity() == null )
             return;
 
+        ListView vehicleEntries = (ListView) getActivity().findViewById(R.id.vehicle_entries);
+
         // fill in the grid_item layout
         _adapter = new EntriesAdapter(getActivity(), entries);
-        _vehicleEntries.setAdapter(_adapter);
+        vehicleEntries.setAdapter(_adapter);
     }
 }

@@ -43,6 +43,7 @@ public class VehicleActivity extends Activity implements VehicleDialog.IVehicleD
     Spinner _spinner;
     List<Vehicle> _vehicleList;
     Vehicle _currentVehicle;
+    Boolean _landscape;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,24 +60,28 @@ public class VehicleActivity extends Activity implements VehicleDialog.IVehicleD
             }
         });
 
-        // Set up the action bar to show a dropdown list.
-        final ActionBar actionBar = getActionBar();
-        if ( actionBar == null ) return;
+        _landscape = findViewById(R.id.vehicle_fragment) == null;
 
-        //actionBar.setDisplayShowTitleEnabled(false);
-        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+        if ( !_landscape ) {
+            // Set up the action bar to show a dropdown list.
+            final ActionBar actionBar = getActionBar();
+            if ( actionBar == null ) return;
 
-        ActionBar.Tab tab = actionBar.newTab()
-                .setText( R.string.vehicle_statistics )
-                /*.setIcon( R.drawable.ic_tab_statistics )*/
-                .setTabListener( new TabListener<StatisticsFragment>( this, "statistics", StatisticsFragment.class ) );
-        actionBar.addTab( tab );
+            //actionBar.setDisplayShowTitleEnabled(false);
+            actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 
-        tab = actionBar.newTab()
-                .setText( R.string.vehicle_entries )
-                /*.setIcon( R.drawable.ic_tab_entries )*/
-                .setTabListener( new TabListener<EntriesFragment>( this, "entries", EntriesFragment.class ) );
-        actionBar.addTab( tab );
+            ActionBar.Tab tab = actionBar.newTab()
+                    .setText( R.string.vehicle_statistics )
+                    /*.setIcon( R.drawable.ic_tab_statistics )*/
+                    .setTabListener( new TabListener<StatisticsFragment>( this, "statistics", StatisticsFragment.class ) );
+            actionBar.addTab( tab );
+
+            tab = actionBar.newTab()
+                    .setText( R.string.vehicle_entries )
+                    /*.setIcon( R.drawable.ic_tab_entries )*/
+                    .setTabListener( new TabListener<EntriesFragment>( this, "entries", EntriesFragment.class ) );
+            actionBar.addTab( tab );
+        }
 
         _spinner = (Spinner) findViewById( R.id.vehicle_name );
         _spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -321,14 +326,21 @@ public class VehicleActivity extends Activity implements VehicleDialog.IVehicleD
     {
         _currentVehicle = (Vehicle) _spinner.getSelectedItem();
 
-        ActionBar actionBar = getActionBar();
-        if ( actionBar == null ) return;
+        if ( !_landscape ) {
+            ActionBar actionBar = getActionBar();
+            if ( actionBar == null ) return;
 
-        ActionBar.Tab tab = actionBar.getSelectedTab();
-        if ( tab == null ) return;
+            ActionBar.Tab tab = actionBar.getSelectedTab();
+            if ( tab == null ) return;
 
-        // This will load the data into the current fragment
-        setDataToFragment((Fragment) tab.getTag());
+            // This will load the data into the current fragment
+            setDataToFragment((Fragment) tab.getTag());
+        } else {
+            StatisticsFragment stats = (StatisticsFragment)getFragmentManager().findFragmentById(R.id.fragment_statistics);
+            setDataToFragment(stats);
+            EntriesFragment entries = (EntriesFragment)getFragmentManager().findFragmentById(R.id.fragment_entries);
+            setDataToFragment(entries);
+        }
     }
 
     public void setDataToFragment( Fragment fragment )
