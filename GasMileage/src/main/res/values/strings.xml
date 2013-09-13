@@ -48,8 +48,8 @@
     <string name="prefs_title_mileage_units">Mileage Units</string>
     <string name="prefs_summary_mileage_units">Units to display mileage in</string>
     <string name="prefs_settings_category">Settings</string>
-    <string name="prefs_title_show_reminder">Show Reset Odometer Reminder</string>
-    <string name="prefs_summary_show_reminder">Shows a dialog after you fill-up reminding you to reset your odometer</string>
+    <string name="prefs_title_show_reminder">Show Reset trip odometer Reminder</string>
+    <string name="prefs_summary_show_reminder">Shows a dialog after you fill-up reminding you to reset your trip odometer</string>
 
     <!-- Entry Dialog -->
     <string name="entry_dialog_title">Fill-Up</string>
@@ -68,23 +68,23 @@
     <string name="vehicle_dialog_title_edit">Edit Vehicle</string>
     <string name="vehicle_dialog_hint">Vehicle Name</string>
 
-    <!-- Reset Odometer Dialog -->
+    <!-- Reset trip odometer Dialog -->
     <string name="reset_dialog_checkbox">Do not show this dialog again</string>
-    <string name="reset_dialog_title">Remember: Reset your odometer</string>
+    <string name="reset_dialog_title">Remember: Reset your trip odometer</string>
 
     <!-- Help Activity -->
     <string name="help_title">Help</string>
-    <string name="help_text"><![CDATA[Other mileage tracking applications require you to add entries every time you fill up and if you forget, it is difficult to catch up. Gas Mileage is different, just remember to reset your odometer every time you fill up your tank and then add entries when you remember.<br />
+    <string name="help_text"><![CDATA[Other mileage tracking applications require you to add entries every time you fill up and if you forget, it is difficult to catch up. Gas Mileage is different, just remember to reset your trip odometer every time you fill up your tank and then add entries when you remember.<br />
         <br />
         <b>To start using the application,</b><br />
         <br />
-        <b>1 -</b> Fill-up your car and reset your odometer. Do not enter a reading.<br />
+        <b>1 -</b> Fill-up your car and reset your trip odometer. Do not enter a reading.<br />
         <br />
-        <b>2 -</b> Next time you fill-up your car, enter the amount of fuel you added and the distance you have driven, then reset your odometer.<br />
+        <b>2 -</b> Next time you fill-up your car, enter the amount of fuel you added and the distance you have driven, then reset your trip odometer.<br />
         <br />
         <b>3 -</b> To enter a fill-up in the application, select your vehicle from the dropdown and press to add button in the upper right.<br />
         <br />
-        If you ever forget to reset your odometer when you fill up, just do it next time.<br />
+        If you ever forget to reset your trip odometer when you fill up, just do it next time.<br />
         <br />
         If you have multiple vehicles, manage them using the menu and select the current vehicle in the dropdown.<br />
         ]]>
