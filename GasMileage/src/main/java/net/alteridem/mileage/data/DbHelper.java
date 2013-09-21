@@ -28,7 +28,7 @@ public class DbHelper extends SQLiteOpenHelper {
 
         // Insert some default data
         String name = context.getString(R.string.default_vehicle );
-        Vehicle vehicle = new Vehicle(name);
+        Vehicle vehicle = new Vehicle(0, name);
         vehicle.save(db);
     }
 

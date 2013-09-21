@@ -1,35 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:layout_gravity="center"
-              android:id="@+id/vehicle_dialog" >
-
-  <EditText
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:inputType="text"
-      android:imeOptions="actionDone"
-      android:id="@+id/vehicle_dialog_name"
-      android:hint="@string/vehicle_dialog_hint"/>
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:id="@+id/vehicle_dialog">
 
     <LinearLayout
-            android:orientation="horizontal"
-            android:gravity="center"
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:gravity="bottom"
+        android:layout_height="wrap_content">
+
+        <Spinner
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/vehicle_dialog_icon" />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="text"
+            android:imeOptions="actionDone"
+            android:id="@+id/vehicle_dialog_name"
+            android:hint="@string/vehicle_dialog_hint" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        style="?android:attr/buttonBarStyle">
+
+        <Button
+            android:id="@+id/vehicle_dialog_cancel"
+            android:layout_height="wrap_content"
             android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            style="?android:attr/buttonBarStyle">
+            android:layout_weight="2"
+            android:text="@string/cancel"
+            style="?android:attr/buttonBarButtonStyle" />
 
-        <Button android:id="@+id/vehicle_dialog_cancel"
-                android:layout_height="wrap_content"
-                android:layout_width="fill_parent"
-                android:layout_weight="2"
-                android:text="@string/cancel"
-                style="?android:attr/buttonBarButtonStyle" />
-
-        <Button android:id="@+id/vehicle_dialog_ok"
+        <Button
+            android:id="@+id/vehicle_dialog_ok"
             android:layout_height="wrap_content"
             android:layout_width="fill_parent"
             android:layout_weight="2"

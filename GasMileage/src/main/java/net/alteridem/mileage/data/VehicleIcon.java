@@ -33,33 +33,9 @@ public final class VehicleIcon {
     }
 
     /**
-     * Returns a database id for the given R.drawable image
-     * @param drawable The R.drawable image
-     * @return The database id of the icon
+     * Gets the number of icons that we currently support
+     * @return The number of icons
      */
-    public static int getIdForDrawable( int drawable ) {
-        switch ( drawable ) {
-            case R.drawable.vehicle_1:
-                return 0;
-            case R.drawable.vehicle_2:
-                return 1;
-            case R.drawable.vehicle_3:
-                return 2;
-            case R.drawable.vehicle_4:
-                return 3;
-            case R.drawable.vehicle_5:
-                return 4;
-            case R.drawable.vehicle_6:
-                return 5;
-            case R.drawable.vehicle_7:
-                return 6;
-            case R.drawable.vehicle_8:
-                return 7;
-            default:
-                return 0;
-        }
-    }
-
     public static int getNumberOfIcons() {
         return 8;
     }

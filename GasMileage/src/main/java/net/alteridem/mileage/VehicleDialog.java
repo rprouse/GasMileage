@@ -6,8 +6,10 @@ import android.view.*;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 
+import net.alteridem.mileage.adapters.VehicleIconAdapter;
 import net.alteridem.mileage.data.Vehicle;
 
 /**
@@ -21,6 +23,7 @@ public class VehicleDialog extends DialogFragment implements TextView.OnEditorAc
         void onFinishVehicleDialog(Vehicle vehicle);
     }
 
+    private Spinner _vehicleIcon;
     private EditText _vehicleName;
     private Vehicle _vehicle;
 
@@ -35,11 +38,17 @@ public class VehicleDialog extends DialogFragment implements TextView.OnEditorAc
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragement_vehicle_dialog, container);
+
+        // Issue #29 - Show a spinner with vehicle icons
+        _vehicleIcon = (Spinner) view.findViewById(R.id.vehicle_dialog_icon);
+        _vehicleIcon.setAdapter(new VehicleIconAdapter(getActivity()));
+
         _vehicleName = (EditText) view.findViewById(R.id.vehicle_dialog_name);
         if (_vehicle == null) {
             getDialog().setTitle(getString(R.string.vehicle_dialog_title_add));
         } else {
             getDialog().setTitle(getString(R.string.vehicle_dialog_title_edit));
+            _vehicleIcon.setSelection(_vehicle.getIconId());
             _vehicleName.setText(_vehicle.getName());
         }
 
@@ -78,6 +87,8 @@ public class VehicleDialog extends DialogFragment implements TextView.OnEditorAc
 
     private void closeDialog() {
         // Save the vehicle
+        // Issue #29 - Show a spinner with vehicle icons
+        int icon = _vehicleIcon.getSelectedItemPosition();
         String name = _vehicleName.getText().toString();
         if ( name.isEmpty() ) {
             _vehicleName.setError(getString(R.string.string_error));
@@ -85,8 +96,9 @@ public class VehicleDialog extends DialogFragment implements TextView.OnEditorAc
         }
 
         if (_vehicle == null) {
-            _vehicle = new Vehicle(name);
+            _vehicle = new Vehicle(icon, name);
         } else {
+            _vehicle.setIconId(icon);
             _vehicle.setName(name);
         }
         _vehicle.save();

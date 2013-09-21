@@ -44,9 +44,9 @@ public class Vehicle {
         return name;
     }
 
-    public Vehicle(String name) {
+    public Vehicle(int icon, String name) {
         id = -1;
-        icon = 0;
+        this.icon = icon;
         this.name = name;
         entries = null;
         bestMileage = 0;
