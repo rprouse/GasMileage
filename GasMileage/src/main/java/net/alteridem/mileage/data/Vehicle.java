@@ -31,6 +31,7 @@ public class Vehicle {
     static final String QUERY_LAST_MILEAGE = "SELECT " + Entry.C_MILEAGE + " FROM " + Entry.TABLE + " WHERE " + Entry.C_VEHICLE_ID + "=? ORDER BY " + Entry.C_FILLUP_DATE + " DESC";
 
     private long id;
+    private int icon;
     private String name;
     private List<Entry> entries;
     private double bestMileage;
@@ -45,6 +46,7 @@ public class Vehicle {
 
     public Vehicle(String name) {
         id = -1;
+        icon = 0;
         this.name = name;
         entries = null;
         bestMileage = 0;
@@ -59,6 +61,7 @@ public class Vehicle {
 
     private void loadFromCursor(Cursor cursor) {
         id = cursor.getInt(0);
+        icon = 0;
         name = cursor.getString(1);
         entries = null;
         bestMileage = cursor.getDouble(2);
@@ -77,6 +80,26 @@ public class Vehicle {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    /**
+     * Gets the database id of the icon
+     * @return
+     */
+    public int getIconId() {
+        return icon;
+    }
+
+    public void setIconId(int id) {
+        icon = id;
+    }
+
+    /**
+     * Gets the R.drawable image for the icon
+     * @return
+     */
+    public int getIcon() {
+        return VehicleIcon.getDrawableForId(icon);
     }
 
     public List<Entry> getEntries() {

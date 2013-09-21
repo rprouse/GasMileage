@@ -10,8 +10,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingLeft="3dp"
-        android:paddingRight="5dp"
-        android:src="@drawable/vehicle_5" />
+        android:paddingRight="5dp" />
 
     <CheckedTextView
         android:id="@+id/spinner_dropdown_vehicle_name"

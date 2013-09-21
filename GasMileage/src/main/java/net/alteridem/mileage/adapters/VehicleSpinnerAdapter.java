@@ -33,6 +33,7 @@ public class VehicleSpinnerAdapter extends ArrayAdapter<Vehicle> implements Spin
             ImageView icon = (ImageView) view.findViewById(R.id.spinner_item_vehicle_icon);
             TextView name = (TextView) view.findViewById(R.id.spinner_item_vehicle_name);
 
+            icon.setImageResource(vehicle.getIcon());
             name.setText( vehicle.getName() );
         }
         return view;
@@ -47,6 +48,7 @@ public class VehicleSpinnerAdapter extends ArrayAdapter<Vehicle> implements Spin
             ImageView icon = (ImageView) view.findViewById(R.id.spinner_dropdown_vehicle_icon);
             TextView name = (TextView) view.findViewById(R.id.spinner_dropdown_vehicle_name);
 
+            icon.setImageResource(vehicle.getIcon());
             name.setText( vehicle.getName() );
         }
         return view;
