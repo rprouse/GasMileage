@@ -19,11 +19,12 @@ public class Vehicle {
     static final String TAG = Vehicle.class.getSimpleName();
     static final String TABLE = "vehicle";
     static final String C_ID = "id";
+    static final String C_ICON = "icon";
     static final String C_NAME = "name";
     static final String C_LAST_MILEAGE = "last_mileage";
-    static final String[] COLUMNS = {C_ID, C_NAME, C_LAST_MILEAGE};
+    static final String[] COLUMNS = {C_ID, C_ICON, C_NAME, C_LAST_MILEAGE};
 
-    static final String QUERY_START = "SELECT v.id, v.name, MIN( e.mileage ), MAX( e.mileage ), AVG( e.mileage ), v.last_mileage FROM vehicle v LEFT OUTER JOIN entry e on e.vehicle_id=v.id ";
+    static final String QUERY_START = "SELECT v.id, v.icon, v.name, MIN( e.mileage ), MAX( e.mileage ), AVG( e.mileage ), v.last_mileage FROM vehicle v LEFT OUTER JOIN entry e on e.vehicle_id=v.id ";
     static final String QUERY_GROUP_BY = "GROUP BY v.id";
     static final String QUERY_ALL = QUERY_START + QUERY_GROUP_BY;
     static final String QUERY_ONE = QUERY_START + " WHERE v.id=? " + QUERY_GROUP_BY;
@@ -61,13 +62,13 @@ public class Vehicle {
 
     private void loadFromCursor(Cursor cursor) {
         id = cursor.getInt(0);
-        icon = 0;
-        name = cursor.getString(1);
+        icon = cursor.getInt(1);
+        name = cursor.getString(2);
         entries = null;
-        bestMileage = cursor.getDouble(2);
-        worstMileage = cursor.getDouble(3);
-        averageMileage = cursor.getDouble(4);
-        lastMileage = cursor.getDouble(5);
+        bestMileage = cursor.getDouble(3);
+        worstMileage = cursor.getDouble(4);
+        averageMileage = cursor.getDouble(5);
+        lastMileage = cursor.getDouble(6);
     }
 
     public long getId() {
@@ -84,7 +85,7 @@ public class Vehicle {
 
     /**
      * Gets the database id of the icon
-     * @return
+     * @return The database id of the icon
      */
     public int getIconId() {
         return icon;
@@ -96,7 +97,7 @@ public class Vehicle {
 
     /**
      * Gets the R.drawable image for the icon
-     * @return
+     * @return The R.drawable image for the icon
      */
     public int getIcon() {
         return VehicleIcon.getDrawableForId(icon);
@@ -146,6 +147,7 @@ public class Vehicle {
 
     public void save(SQLiteDatabase db) {
         ContentValues values = new ContentValues();
+        values.put(C_ICON, icon);
         values.put(C_NAME, name);
         values.put(C_LAST_MILEAGE, lastMileage);
         if (id < 0) {
@@ -273,5 +275,11 @@ public class Vehicle {
     }
 
     static void upgradeTable(SQLiteDatabase db, int oldVersion, int newVersion) {
+        if ( oldVersion < 2 ) {
+            // Upgrade to version 2
+            String sql = "ALTER TABLE " + TABLE + " ADD COLUMN " + C_ICON + " INTEGER NOT NULL DEFAULT 0";
+            db.execSQL(sql);
+            Log.d(TAG, "Updated vehicle table to version 2");
+        }
     }
 }

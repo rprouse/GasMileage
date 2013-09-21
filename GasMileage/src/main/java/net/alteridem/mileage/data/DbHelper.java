@@ -13,7 +13,7 @@ import net.alteridem.mileage.R;
 public class DbHelper extends SQLiteOpenHelper {
     static final String TAG = DbHelper.class.getSimpleName();
     static final String DB_NAME = "mileage.db";
-    static final int DB_VERSION = 1;
+    static final int DB_VERSION = 2;
     Context context;
 
     public DbHelper(Context context) {
