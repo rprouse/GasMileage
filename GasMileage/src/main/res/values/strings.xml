@@ -89,5 +89,6 @@
         If you have multiple vehicles, manage them using the menu and select the current vehicle in the dropdown.<br />
         ]]>
     </string>
+    <string name="entry_dialog_note">Notes</string>
 
 </resources>
