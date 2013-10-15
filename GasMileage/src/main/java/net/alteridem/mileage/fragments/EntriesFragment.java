@@ -15,12 +15,10 @@ import net.alteridem.mileage.R;
 import net.alteridem.mileage.VehicleActivity;
 import net.alteridem.mileage.adapters.EntriesAdapter;
 import net.alteridem.mileage.data.Entry;
-import net.alteridem.mileage.data.Vehicle;
 
 import java.util.List;
 
 /**
- * Created by Robert Prouse on 13/06/13.
  */
 public class EntriesFragment extends Fragment {
     //ListView _vehicleEntries;
@@ -94,7 +92,7 @@ public class EntriesFragment extends Fragment {
         ListView vehicleEntries = (ListView) getActivity().findViewById(R.id.vehicle_entries);
 
         // fill in the grid_item layout
-        _adapter = new EntriesAdapter(getActivity(), entries);
+        _adapter = new EntriesAdapter(this, entries);
         vehicleEntries.setAdapter(_adapter);
     }
 }

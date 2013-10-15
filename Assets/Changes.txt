@@ -1,3 +1,4 @@
 Version 1.2
 
-- Added icons for each of your vehicles. To change from the default, edit your vehicles.
+- Each vehicle now has an icon. To change from the default, edit your vehicles.
+- Attach notes to fill-ups and view them later.

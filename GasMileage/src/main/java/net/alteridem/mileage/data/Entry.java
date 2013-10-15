@@ -4,11 +4,13 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
+import android.text.format.DateFormat;
 import android.util.Log;
 
 import net.alteridem.mileage.Convert;
 import net.alteridem.mileage.MileageApplication;
 
+import java.text.Format;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -71,6 +73,16 @@ public class Entry {
         this.fillup_date = fillup_date;
     }
 
+    /**
+     * Gets the string representation of the fillup date in the user's prefered format
+     * @return
+     */
+    public String getFillupDateString() {
+        Date d = getFillup_date();
+        Format df = DateFormat.getDateFormat(MileageApplication.getApplication());
+        return df.format(d);
+    }
+
     public long getId() {
         return id;
     }
@@ -101,6 +113,10 @@ public class Entry {
 
     public void setNote(String note) {
         this.note = note;
+    }
+
+    public boolean hasNote(){
+        return note != null && !note.trim().isEmpty();
     }
 
     public long getVehicle_id() {

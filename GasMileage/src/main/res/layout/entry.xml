@@ -20,6 +20,16 @@
             android:text="4.5 L/100km"
             android:id="@+id/entry_mileage"/>
 
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/entry_note_icon"
+        android:layout_gravity="center_vertical|right"
+        android:src="@drawable/note_icon"
+        android:layout_marginTop="3dp"
+        android:layout_marginBottom="3dp"
+        android:layout_marginRight="6dp" />
+
     <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

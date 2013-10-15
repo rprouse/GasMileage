@@ -1,33 +1,34 @@
 package net.alteridem.mileage.adapters;
 
+import android.app.AlertDialog;
 import android.content.Context;
-import android.text.format.DateFormat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.TextView;
 
-import net.alteridem.mileage.MileageApplication;
 import net.alteridem.mileage.R;
 import net.alteridem.mileage.data.Entry;
+import net.alteridem.mileage.fragments.EntriesFragment;
 
-import java.text.Format;
-import java.util.Date;
 import java.util.List;
 
 /**
- * Created by Robert Prouse on 07/09/13.
+ * Loads Entries into a ListView
  */
 public class EntriesAdapter extends BaseAdapter implements ListAdapter {
 
     private List<Entry> _entries;
     private Context _context;
+    private EntriesFragment _fragment;
     private LayoutInflater _inflater;
 
-    public EntriesAdapter( Context context, List<Entry> entries ){
-        _context = context;
+    public EntriesAdapter( EntriesFragment fragment, List<Entry> entries ){
+        _fragment = fragment;
+        _context = _fragment.getActivity();
         _entries = entries;
         _inflater = (LayoutInflater) _context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
@@ -60,21 +61,45 @@ public class EntriesAdapter extends BaseAdapter implements ListAdapter {
         }
         Entry entry = (Entry)getItem(i);
         if ( view != null && entry != null) {
-            View color = (View) view.findViewById(R.id.entry_color);
+            View color = view.findViewById(R.id.entry_color);
             TextView date = (TextView) view.findViewById(R.id.entry_date);
             TextView kilometers = (TextView) view.findViewById(R.id.entry_kilometers);
             TextView liters = (TextView) view.findViewById(R.id.entry_liters);
             TextView mileage = (TextView) view.findViewById(R.id.entry_mileage);
 
-            // Use user pref date format
-            Date d = entry.getFillup_date();
-            Format df = DateFormat.getDateFormat(MileageApplication.getApplication());
-            String dateStr = df.format(d);
-            date.setText(dateStr);
+            date.setText(entry.getFillupDateString());
             kilometers.setText(entry.getDistanceString());
             liters.setText(entry.getVolumeString());
             mileage.setText(entry.getMileageString());
             color.setBackgroundColor(entry.getColor());
+
+            // Issue #27: Add notes to entries
+            ImageView note_icon = (ImageView) view.findViewById(R.id.entry_note_icon);
+            int visibility = entry.hasNote() ? View.VISIBLE : View.INVISIBLE;
+            note_icon.setVisibility(visibility);
+            note_icon.setTag( entry );
+            note_icon.setClickable( true );
+            note_icon.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Entry entry = (Entry) view.getTag();
+                    if ( entry != null ) {
+                        new AlertDialog.Builder(_context)
+                                .setTitle(entry.getFillupDateString())
+                                .setMessage(entry.getNote())
+                                .setPositiveButton(R.string.ok, null)
+                                .show();
+                    }
+                }
+            });
+            note_icon.setLongClickable( true );
+            note_icon.setOnLongClickListener( new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View view) {
+                    _fragment.getActivity().openContextMenu(view);
+                    return true;
+                }
+            });
         }
         return view;
     }

@@ -38,6 +38,7 @@ public class EntryDialog extends DialogFragment implements IDateReceiver, TextVi
     EditText _liters;
     Spinner _litersUnit;
     TextView _datePicker;
+    TextView _note;
     int _year;
     int _month;
     int _day;
@@ -90,6 +91,8 @@ public class EntryDialog extends DialogFragment implements IDateReceiver, TextVi
             }
         });
 
+        _note = (TextView) view.findViewById(R.id.entry_dialog_note);
+
         Button ok = (Button) view.findViewById(R.id.entry_dialog_ok);
         ok.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -119,6 +122,7 @@ public class EntryDialog extends DialogFragment implements IDateReceiver, TextVi
         if (_entry != null) {
             _liters.setText(String.valueOf(Convert.volume(_entry.getLitres())));
             _kilometers.setText(String.valueOf(Convert.distance(_entry.getKilometers())));
+            _note.setText(_entry.getNote());
         }
 
         return view;
@@ -216,7 +220,9 @@ public class EntryDialog extends DialogFragment implements IDateReceiver, TextVi
 
         Date d = new Date(_year - 1900, _month, _day);
 
-        Entry entry = new Entry(v.getId(), d, km, l, "");
+        String note = _note.getText().toString();
+
+        Entry entry = new Entry(v.getId(), d, km, l, note);
         if ( _entry != null ) {
             entry.setId(_entry.getId());
         }

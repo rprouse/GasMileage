@@ -1,80 +1,100 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
-              android:id="@+id/entry_dialog"
-              android:layout_width="fill_parent"
-              android:layout_height="fill_parent">
+    android:orientation="vertical"
+    android:id="@+id/entry_dialog"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
 
-  <Spinner android:id="@+id/entry_dialog_vehicle"
-           android:layout_height="wrap_content"
-           android:layout_width="fill_parent" />
-
-  <TextView android:id="@+id/entry_dialog_date"
-            style="@style/DateSpinner.Gasmileage"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"/>
-
-  <LinearLayout
-      android:orientation="horizontal"
-      android:layout_width="fill_parent"
-      android:layout_height="wrap_content">
-
-    <EditText android:id="@+id/entry_dialog_kilometers"
-              android:inputType="numberDecimal"
-              android:layout_height="wrap_content"
-              android:layout_width="fill_parent"
-              android:layout_weight="1"
-              android:imeOptions="actionNext"/>
-
-    <Spinner android:id="@+id/entry_dialog_kilometers_unit"
-             android:layout_height="wrap_content"
-             android:layout_width="fill_parent"
-             android:layout_weight="2"/>
-
-  </LinearLayout>
-
-  <LinearLayout
-      android:orientation="horizontal"
-      android:layout_width="fill_parent"
-      android:layout_height="wrap_content">
-
-    <EditText android:id="@+id/entry_dialog_liters"
-              android:inputType="numberDecimal"
-              android:layout_height="wrap_content"
-              android:layout_width="fill_parent"
-              android:layout_weight="1"
-              android:imeOptions="actionDone" />
-
-    <Spinner android:id="@+id/entry_dialog_liters_unit"
-             android:layout_height="wrap_content"
-             android:layout_width="fill_parent"
-             android:layout_weight="2"/>
-
-  </LinearLayout>
-
-  <LinearLayout
-      android:orientation="horizontal"
-      android:layout_width="fill_parent"
-      android:layout_height="wrap_content"
-      style="?android:attr/buttonBarStyle" >
-
-    <Button
-        android:id="@+id/entry_dialog_cancel"
-        android:text="@string/cancel"
+    <Spinner
+        android:id="@+id/entry_dialog_vehicle"
         android:layout_height="wrap_content"
+        android:layout_width="fill_parent" />
+
+    <TextView
+        android:id="@+id/entry_dialog_date"
+        style="@style/DateSpinner.Gasmileage"
         android:layout_width="fill_parent"
-        android:layout_weight="2"
-        style="?android:attr/buttonBarButtonStyle" />
+        android:layout_height="wrap_content" />
 
-      <Button
-          android:id="@+id/entry_dialog_ok"
-          android:text="@string/ok"
-          android:layout_height="wrap_content"
-          android:layout_width="fill_parent"
-          android:layout_weight="2"
-          style="?android:attr/buttonBarButtonStyle" />
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
 
-  </LinearLayout>
+        <EditText
+            android:id="@+id/entry_dialog_kilometers"
+            android:inputType="numberDecimal"
+            android:layout_height="wrap_content"
+            android:layout_width="fill_parent"
+            android:layout_weight="1"
+            android:imeOptions="actionNext" />
+
+        <Spinner
+            android:id="@+id/entry_dialog_kilometers_unit"
+            android:layout_height="wrap_content"
+            android:layout_width="fill_parent"
+            android:layout_weight="2" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
+
+        <EditText
+            android:id="@+id/entry_dialog_liters"
+            android:inputType="numberDecimal"
+            android:layout_height="wrap_content"
+            android:layout_width="fill_parent"
+            android:layout_weight="1"
+            android:imeOptions="actionDone" />
+
+        <Spinner
+            android:id="@+id/entry_dialog_liters_unit"
+            android:layout_height="wrap_content"
+            android:layout_width="fill_parent"
+            android:layout_weight="2" />
+
+    </LinearLayout>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textMultiLine"
+        android:ems="10"
+        android:hint="@string/entry_dialog_note"
+        android:id="@+id/entry_dialog_note"
+        android:editable="true"
+        android:enabled="true"
+        android:lines="4"
+        android:linksClickable="false"
+        android:maxLines="4"
+        android:gravity="start" />
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        style="?android:attr/buttonBarStyle">
+
+        <Button
+            android:id="@+id/entry_dialog_cancel"
+            android:text="@string/cancel"
+            android:layout_height="wrap_content"
+            android:layout_width="fill_parent"
+            android:layout_weight="2"
+            style="?android:attr/buttonBarButtonStyle" />
+
+        <Button
+            android:id="@+id/entry_dialog_ok"
+            android:text="@string/ok"
+            android:layout_height="wrap_content"
+            android:layout_width="fill_parent"
+            android:layout_weight="2"
+            style="?android:attr/buttonBarButtonStyle" />
+
+    </LinearLayout>
 
 </LinearLayout>
