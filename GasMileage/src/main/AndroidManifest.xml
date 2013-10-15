@@ -6,35 +6,34 @@
 
     <uses-sdk
         android:minSdkVersion="15"
-        android:targetSdkVersion="16" />
+        android:targetSdkVersion="18" />
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
     <application
+        android:name="net.alteridem.mileage.MileageApplication"
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:name=".MileageApplication"
         android:theme="@style/Theme.Gasmileage" >
-
         <activity
-            android:name=".VehicleActivity"
+            android:name="net.alteridem.mileage.VehicleActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
-            android:name=".MileagePreferencesActivity"
+            android:name="net.alteridem.mileage.MileagePreferencesActivity"
             android:label="@string/prefs_title" >
         </activity>
-
         <activity
-            android:name=".HelpActivity"
-            android:label="@string/help_title" />
+            android:name="net.alteridem.mileage.HelpActivity"
+            android:label="@string/help_title" >
+        </activity>
     </application>
 
 </manifest>
