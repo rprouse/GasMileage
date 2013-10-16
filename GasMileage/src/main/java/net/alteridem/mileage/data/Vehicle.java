@@ -269,7 +269,8 @@ public class Vehicle {
         String sql = "CREATE TABLE IF NOT EXISTS " + TABLE +
                 " ( " + C_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 C_NAME + " TEXT NOT NULL, " +
-                C_LAST_MILEAGE + " REAL NOT NULL DEFAULT 0 )";
+                C_LAST_MILEAGE + " REAL NOT NULL DEFAULT 0," +
+                C_ICON + " INTEGER NOT NULL DEFAULT 0 )";
         db.execSQL(sql);
         Log.d(TAG, "Created vehicle table");
     }

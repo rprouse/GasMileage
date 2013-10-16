@@ -1,3 +1,8 @@
+Version 1.3
+
+- Fixed crash on startup for some users.
+- Fill-up dialog now properly tabs through entry fields.
+
 Version 1.2
 
 - Each vehicle now has an icon. To change from the default, edit your vehicles.
