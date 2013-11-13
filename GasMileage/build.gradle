@@ -3,18 +3,19 @@ buildscript {
         maven { url 'http://repo1.maven.org/maven2' }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:0.5.+'
+        classpath 'com.android.tools.build:gradle:0.6.+'
     }
 }
 apply plugin: 'android'
 
 dependencies {
     compile files('libs/Flurry_3.2.2.jar')
+    compile files('libs/achartengine-1.1.0.jar')
 }
 
 android {
     compileSdkVersion 17
-    buildToolsVersion "17.0.0"
+    buildToolsVersion '17.0.0'
 
     defaultConfig {
         minSdkVersion 15
