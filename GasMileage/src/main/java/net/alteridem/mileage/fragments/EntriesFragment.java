@@ -19,23 +19,17 @@ import net.alteridem.mileage.data.Entry;
 
 import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EFragment;
+import org.androidannotations.annotations.OptionsMenu;
 
 import java.util.List;
 
-/**
- */
-@EFragment
+@EFragment(R.layout.fragment_entries)
 public class EntriesFragment extends Fragment {
     //ListView _vehicleEntries;
     EntriesAdapter _adapter;
 
     @Bean
     Convert _convert;
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_entries, container, false);
-    }
 
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {

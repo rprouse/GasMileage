@@ -22,18 +22,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-@EFragment
+@EFragment(R.layout.fragment_statistics)
 public class StatisticsFragment extends Fragment {
     @Bean
     Convert _convert;
 
     @ViewById(R.id.vehicle_statistics)
     ListView vehicle_statistics;
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_statistics, container, false);
-    }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {

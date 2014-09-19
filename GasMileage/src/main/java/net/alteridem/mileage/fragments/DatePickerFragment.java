@@ -10,16 +10,10 @@ import net.alteridem.mileage.IDateReceiver;
 
 import java.util.Calendar;
 
-/**
- * Created with IntelliJ IDEA.
- * User: Robert Prouse
- * Date: 1/29/13
- * Time: 8:50 PM
- */
 public class DatePickerFragment extends DialogFragment implements DatePickerDialog.OnDateSetListener {
     private IDateReceiver _dateReceiver;
 
-    public DatePickerFragment(IDateReceiver dateReceiver) {
+    public void setReceiver(IDateReceiver dateReceiver) {
         _dateReceiver = dateReceiver;
     }
 

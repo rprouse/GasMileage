@@ -189,7 +189,8 @@ public class EntryDialog extends DialogFragment implements IDateReceiver, TextVi
     }
 
     private void showDatePickerDialog(View v) {
-        DialogFragment newFragment = new DatePickerFragment(this);
+        DatePickerFragment newFragment = new DatePickerFragment();
+        newFragment.setReceiver(this);
         newFragment.show(getFragmentManager(), "datePicker");
     }
 
