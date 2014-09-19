@@ -25,7 +25,3 @@ If you ever forget to reset your trip odometer when you fill up, just do it next
 If you have multiple vehicles, manage them using the menu and select the current vehicle in the dropdown. Icons make it easy to distinguish between vehicles.
 
 To edit or delete any previous fill-ups, long press on them to bring up a menu. Fill-ups with notes will have a note icon. Just tap the note icon to view the note.
-
-*** Permissions ***
-
-The app uses Flurry Analytics (http://www.flurry.com) to track anonymous usage statistics and error reports. This requires a network connection to send the data and access to your coarse location to track which countries the app is being used in. It does not track or send any personal data.
