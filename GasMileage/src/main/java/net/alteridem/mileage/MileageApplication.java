@@ -6,9 +6,12 @@ import android.preference.PreferenceManager;
 
 import net.alteridem.mileage.data.DbHelper;
 
+import org.androidannotations.annotations.EApplication;
+
 /**
  * Created by Robert Prouse on 13/06/13.
  */
+@EApplication
 public class MileageApplication extends Application {
     private static final String TAG = MileageApplication.class.getSimpleName();
 

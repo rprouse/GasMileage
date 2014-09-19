@@ -1,6 +1,5 @@
 package net.alteridem.mileage;
 
-
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -9,12 +8,7 @@ import android.app.FragmentManager;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.Bundle;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
@@ -25,32 +19,33 @@ import net.alteridem.mileage.fragments.EntriesFragment;
 import net.alteridem.mileage.fragments.StatisticsFragment;
 
 import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.App;
 import org.androidannotations.annotations.EActivity;
+import org.androidannotations.annotations.ItemSelect;
+import org.androidannotations.annotations.OptionsItem;
+import org.androidannotations.annotations.OptionsMenu;
+import org.androidannotations.annotations.ViewById;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @EActivity(R.layout.activity_vehicle)
+@OptionsMenu(R.menu.vehicle)
 public class VehicleActivity extends Activity implements VehicleDialog.IVehicleDialogListener, EntryDialog.IEntryDialogListener {
-
-    /**
-     * The serialization (saved instance state) Bundle key representing the
-     * current dropdown position.
-     */
-    //private static final String STATE_SELECTED_NAVIGATION_ITEM = "selected_navigation_item";
 
     private static final String TAG = VehicleActivity.class.getSimpleName();
 
+    @App
     MileageApplication _application;
-    Spinner _spinner;
+
+    @ViewById(R.id.vehicle_name) Spinner _spinner;
+
     List<Vehicle> _vehicleList;
     Vehicle _currentVehicle;
     Boolean _landscape;
 
     @AfterViews
     void init() {
-        _application = (MileageApplication)getApplication();
-
         // Subscribe to the preferences changing
         MileageApplication.getSharedPreferences().registerOnSharedPreferenceChangeListener(new SharedPreferences.OnSharedPreferenceChangeListener() {
             @Override
@@ -71,202 +66,65 @@ public class VehicleActivity extends Activity implements VehicleDialog.IVehicleD
 
             ActionBar.Tab tab = actionBar.newTab()
                     .setText( R.string.vehicle_statistics )
-                    /*.setIcon( R.drawable.ic_tab_statistics )*/
-                    .setTabListener( new TabListener<StatisticsFragment>( this, "statistics", StatisticsFragment.class ) );
+                    .setTabListener(new TabListener<StatisticsFragment>(this, "statistics", StatisticsFragment.class));
             actionBar.addTab( tab );
 
             tab = actionBar.newTab()
                     .setText( R.string.vehicle_entries )
-                    /*.setIcon( R.drawable.ic_tab_entries )*/
-                    .setTabListener( new TabListener<EntriesFragment>( this, "entries", EntriesFragment.class ) );
+                    .setTabListener(new TabListener<EntriesFragment>(this, "entries", EntriesFragment.class));
             actionBar.addTab( tab );
         }
-
-        _spinner = (Spinner) findViewById( R.id.vehicle_name );
-        _spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                _currentVehicle = (Vehicle) _spinner.getSelectedItem();
-                saveLastVehicle();
-                loadVehicle();
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-            }
-        });
     }
 
     @Override
-    protected void onStart()
-    {
-        super.onStart();
-    }
-
-    @Override
-    protected void onStop()
-    {
-        super.onStop();
-    }
-
-    @Override
-    protected void onResume()
-    {
+    protected void onResume() {
         super.onResume();
         loadData();
     }
 
-    @Override
-    public void onRestoreInstanceState( Bundle savedInstanceState) {
-        // Restore the previously serialized current dropdown position.
-//        if (savedInstanceState.containsKey(STATE_SELECTED_NAVIGATION_ITEM)) {
-//            getActionBar().setSelectedNavigationItem( savedInstanceState.getInt(STATE_SELECTED_NAVIGATION_ITEM));
-//        }
-    }
-
-    @Override
-    public void onSaveInstanceState( Bundle outState ) {
-        // Serialize the current dropdown position.
-//        outState.putInt(STATE_SELECTED_NAVIGATION_ITEM, getActionBar().getSelectedNavigationIndex());
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.vehicle, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch ( item.getItemId() )
-        {
-            case R.id.menu_fill_up:
-                enterFillUp();
-                break;
-            case R.id.menu_add_vehicle:
-                addVehicle();
-                break;
-            case R.id.menu_edit_vehicle:
-                editVehicle();
-                break;
-            case R.id.menu_delete_vehicle:
-                deleteVehicle();
-                break;
-            case R.id.menu_help:
-                showHelp();
-                break;
-            case R.id.menu_settings:
-                showSettings();
-                break;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
-    private void showHelp() {
-        startActivity( new Intent( this, HelpActivity.class ) );
-    }
-
-    private void showSettings() {
-        startActivity( new Intent( this, MileagePreferencesActivity.class ) );
-    }
-
-    public Vehicle getCurrentVehicle()
-    {
-        return _currentVehicle;
-    }
-
-    public List<Entry> getEntries()
-    {
-        List<Entry> entries;
-        if ( _currentVehicle != null )
-        {
-            entries = _currentVehicle.getEntries();
-        }
-        else
-        {
-            entries = new ArrayList<Entry>();
-        }
-        return entries;
-    }
-
-    private void loadData()
-    {
-        loadVehicles();
+    @ItemSelect(R.id.vehicle_name)
+    void onVehicleSelecte(boolean selected, int position) {
+        _currentVehicle = (Vehicle) _spinner.getSelectedItem();
+        saveLastVehicle();
         loadVehicle();
     }
 
-    private void loadVehicles()
-    {
-        _vehicleList = Vehicle.fetchAll();
-        ArrayAdapter adapter_veh = new VehicleSpinnerAdapter( this, _vehicleList );
-        _spinner.setAdapter( adapter_veh );
-
-        loadLastVehicle();
+    @OptionsItem(R.id.menu_help)
+    void showHelp() {
+        startActivity( new Intent( this, HelpActivity_.class ) );
     }
 
-    private void loadLastVehicle()
-    {
-        long vehId = MileageApplication.getSharedPreferences().getLong( "last_vehicle", -1 );
-        if ( vehId == -1 )
-            _spinner.setSelection( 0 );
-        else
-            switchToVehicle(vehId);
+    @OptionsItem(R.id.menu_settings)
+    void showSettings() {
+        startActivity( new Intent( this, MileagePreferencesActivity.class ) );
     }
 
-    private void saveLastVehicle()
-    {
-        long vehId = -1;
-        if ( _currentVehicle != null )
-        {
-            vehId = _currentVehicle.getId();
-        }
-        SharedPreferences.Editor edit = MileageApplication.getSharedPreferences().edit();
-        edit.putLong( "last_vehicle", vehId );
-        edit.commit();
-    }
-
-    public void editFillUp(long entry_id) {
-        Log.d(TAG, "editFillUp");
-        Entry entry = Entry.fetch(entry_id);
-        if ( entry != null ) {
-            FragmentManager fm = getFragmentManager();
-            EntryDialog dlg = new EntryDialog( _currentVehicle, entry );
-            dlg.show(fm, "entry_edit_dialog");
-        }
-    }
-
-    private void enterFillUp() {
+    @OptionsItem(R.id.menu_fill_up)
+    void enterFillUp() {
         Log.d(TAG, "enterFillUp");
         FragmentManager fm = getFragmentManager();
         EntryDialog dlg = new EntryDialog( _currentVehicle );
         dlg.show(fm, "entry_dialog");
     }
 
-    public void deleteFillUp(long entry_id){
-        Entry.delete(entry_id);
-        Vehicle vehicle = getCurrentVehicle();
-        if ( vehicle != null ) {
-            vehicle.updateLastMileage();
-            switchToVehicle( vehicle.getId() );
-        }
-    }
-
-    private void addVehicle() {
+    @OptionsItem(R.id.menu_add_vehicle)
+    void addVehicle() {
         Log.d( TAG, "addVehicle" );
         FragmentManager fm = getFragmentManager();
         VehicleDialog dlg = new VehicleDialog();
         dlg.show(fm, "add_vehicle_dialog");
     }
 
-    private void editVehicle() {
+    @OptionsItem(R.id.menu_edit_vehicle)
+    void editVehicle() {
         Log.d( TAG, "editVehicle" );
         FragmentManager fm = getFragmentManager();
         VehicleDialog dlg = new VehicleDialog( _currentVehicle );
         dlg.show( fm, "edit_vehicle_dialog" );
     }
 
-    private void deleteVehicle() {
+    @OptionsItem(R.id.menu_delete_vehicle)
+    void deleteVehicle() {
         // Can't delete the last vehicle
         if( _vehicleList.size() <= 1 ) {
             new AlertDialog.Builder(this)
@@ -291,27 +149,88 @@ public class VehicleActivity extends Activity implements VehicleDialog.IVehicleD
         Log.d(TAG, "deleteVehicle");
     }
 
+    public Vehicle getCurrentVehicle()
+    {
+        return _currentVehicle;
+    }
+
+    public List<Entry> getEntries() {
+        List<Entry> entries;
+        if ( _currentVehicle != null ) {
+            entries = _currentVehicle.getEntries();
+        } else {
+            entries = new ArrayList<Entry>();
+        }
+        return entries;
+    }
+
+    private void loadData() {
+        loadVehicles();
+        loadVehicle();
+    }
+
+    private void loadVehicles() {
+        _vehicleList = Vehicle.fetchAll();
+        ArrayAdapter adapter_veh = new VehicleSpinnerAdapter( this, _vehicleList );
+        _spinner.setAdapter( adapter_veh );
+
+        loadLastVehicle();
+    }
+
+    private void loadLastVehicle() {
+        long vehId = MileageApplication.getSharedPreferences().getLong( "last_vehicle", -1 );
+        if ( vehId == -1 )
+            _spinner.setSelection( 0 );
+        else
+            switchToVehicle(vehId);
+    }
+
+    private void saveLastVehicle() {
+        long vehId = -1;
+        if ( _currentVehicle != null ) {
+            vehId = _currentVehicle.getId();
+        }
+        SharedPreferences.Editor edit = MileageApplication.getSharedPreferences().edit();
+        edit.putLong( "last_vehicle", vehId );
+        edit.commit();
+    }
+
+    public void editFillUp(long entry_id) {
+        Log.d(TAG, "editFillUp");
+        Entry entry = Entry.fetch(entry_id);
+        if ( entry != null ) {
+            FragmentManager fm = getFragmentManager();
+            EntryDialog dlg = new EntryDialog( _currentVehicle, entry );
+            dlg.show(fm, "entry_edit_dialog");
+        }
+    }
+
+    public void deleteFillUp(long entry_id){
+        Entry.delete(entry_id);
+        Vehicle vehicle = getCurrentVehicle();
+        if ( vehicle != null ) {
+            vehicle.updateLastMileage();
+            switchToVehicle( vehicle.getId() );
+        }
+    }
+
     public void switchToVehicle(long vehicle_id) {
         Vehicle v = null;
-        for( Vehicle veh : _vehicleList )
-        {
-            if ( veh.getId() == vehicle_id )
-            {
+        for( Vehicle veh : _vehicleList ) {
+            if ( veh.getId() == vehicle_id ) {
                 veh.reload();
                 v = veh;
                 break;
             }
         }
         int pos = _vehicleList.indexOf( v );
-        if ( pos >= 0 )
-        {
+        if ( pos >= 0 ) {
             _spinner.setSelection( pos );
         }
         loadVehicle();
     }
 
-    private void loadVehicle()
-    {
+    private void loadVehicle() {
         _currentVehicle = (Vehicle) _spinner.getSelectedItem();
 
         if ( !_landscape ) {
@@ -331,26 +250,21 @@ public class VehicleActivity extends Activity implements VehicleDialog.IVehicleD
         }
     }
 
-    public void setDataToFragment( Fragment fragment )
-    {
+    public void setDataToFragment( Fragment fragment ) {
         if ( fragment == null )
             return;
 
-        if ( fragment.getClass() == StatisticsFragment.class )
-        {
+        if ( fragment.getClass() == StatisticsFragment.class ) {
             StatisticsFragment sf = (StatisticsFragment)fragment;
             sf.fillStatistics( _currentVehicle );
-        }
-        else if ( fragment.getClass() == EntriesFragment.class )
-        {
+        } else if ( fragment.getClass() == EntriesFragment.class ) {
             EntriesFragment ef = (EntriesFragment)fragment;
             ef.fillEntries( getEntries() );
         }
     }
 
     @Override
-    public void onFinishVehicleDialog( Vehicle vehicle )
-    {
+    public void onFinishVehicleDialog( Vehicle vehicle ) {
         // Save the vehicle to the last vehicle used so we can set the
         // spinner to it
         _currentVehicle = vehicle;
@@ -359,8 +273,7 @@ public class VehicleActivity extends Activity implements VehicleDialog.IVehicleD
     }
 
     @Override
-    public void onFinishEntryDialog( Vehicle vehicle )
-    {
+    public void onFinishEntryDialog( Vehicle vehicle ) {
         switchToVehicle( vehicle.getId() );
 
         // Determine if we should show this dialog
