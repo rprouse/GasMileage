@@ -1,7 +1,6 @@
 package net.alteridem.mileage;
 
 import android.app.DialogFragment;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,11 +8,15 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
 
-/**
- * Created by Robert Prouse on 06/09/13.
- */
+import org.androidannotations.annotations.EFragment;
+import org.androidannotations.annotations.sharedpreferences.Pref;
+
+@EFragment
 public class ResetOdometerDialog extends DialogFragment {
     CheckBox _checkBox;
+
+    @Pref
+    MileagePreferences_ _preferences;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -35,11 +38,7 @@ public class ResetOdometerDialog extends DialogFragment {
 
     private void closeDialog() {
         if ( _checkBox.isChecked() ) {
-            final SharedPreferences.Editor editor = MileageApplication.getSharedPreferences().edit();
-            if ( editor != null ) {
-                editor.putBoolean( "show_reset_odometer", false );
-                editor.commit();
-            }
+            _preferences.show_reset_odometer().put(false);
         }
         this.dismiss();
     }

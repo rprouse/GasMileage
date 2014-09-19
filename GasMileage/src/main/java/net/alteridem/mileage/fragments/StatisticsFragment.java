@@ -14,15 +14,21 @@ import net.alteridem.mileage.R;
 import net.alteridem.mileage.VehicleActivity;
 import net.alteridem.mileage.data.Vehicle;
 
+import org.androidannotations.annotations.Bean;
+import org.androidannotations.annotations.EFragment;
+import org.androidannotations.annotations.ViewById;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-/**
- * Created by Robert Prouse on 13/06/13.
- */
+@EFragment
 public class StatisticsFragment extends Fragment {
-    //ListView vehicle_statistics;
+    @Bean
+    Convert _convert;
+
+    @ViewById(R.id.vehicle_statistics)
+    ListView vehicle_statistics;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -32,7 +38,6 @@ public class StatisticsFragment extends Fragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        ListView vehicle_statistics = (ListView) getActivity().findViewById(R.id.vehicle_statistics);
 
         VehicleActivity activity = (VehicleActivity) getActivity();
         if (activity != null) {
@@ -47,19 +52,17 @@ public class StatisticsFragment extends Fragment {
         if (getActivity() == null)
             return;
 
-        ListView vehicle_statistics = (ListView) getActivity().findViewById(R.id.vehicle_statistics);
-
         // create the grid item mapping
         String[] from = new String[]{"label", "value"};
         int[] to = new int[]{R.id.statistic_label, R.id.statistic_value};
 
         // prepare the list of all records
         Resources res = getResources(); // Resource object to get strings
-        List<HashMap<String, String>> fillMaps = new ArrayList<HashMap<String, String>>();
-        fillMaps.add(getStatisticMap(res.getString(R.string.stat_best_mileage), String.format("%.2f %s", vehicle.getBestMileage(), Convert.getMileageUnitString())));
-        fillMaps.add(getStatisticMap(res.getString(R.string.stat_avg_mileage), String.format("%.2f %s", vehicle.getAverageMileage(), Convert.getMileageUnitString())));
-        fillMaps.add(getStatisticMap(res.getString(R.string.stat_worst_mileage), String.format("%.2f %s", vehicle.getWorstMileage(), Convert.getMileageUnitString())));
-        fillMaps.add(getStatisticMap(res.getString(R.string.stat_last_mileage), String.format("%.2f %s", vehicle.getLastMileage(), Convert.getMileageUnitString())));
+        List<HashMap<String, String>> fillMaps = new ArrayList<>();
+        fillMaps.add(getStatisticMap(res.getString(R.string.stat_best_mileage), String.format("%.2f %s", vehicle.getBestMileage(_convert), _convert.getMileageUnitString())));
+        fillMaps.add(getStatisticMap(res.getString(R.string.stat_avg_mileage), String.format("%.2f %s", vehicle.getAverageMileage(_convert), _convert.getMileageUnitString())));
+        fillMaps.add(getStatisticMap(res.getString(R.string.stat_worst_mileage), String.format("%.2f %s", vehicle.getWorstMileage(_convert), _convert.getMileageUnitString())));
+        fillMaps.add(getStatisticMap(res.getString(R.string.stat_last_mileage), String.format("%.2f %s", vehicle.getLastMileage(_convert), _convert.getMileageUnitString())));
 
         // fill in the grid_item layout
         SimpleAdapter adapter = new SimpleAdapter(getActivity(), fillMaps, R.layout.statistic, from, to);
@@ -67,7 +70,7 @@ public class StatisticsFragment extends Fragment {
     }
 
     private HashMap<String, String> getStatisticMap(String label, String value) {
-        HashMap<String, String> map = new HashMap<String, String>();
+        HashMap<String, String> map = new HashMap<>();
         map.put("label", label);
         map.put("value", value);
         return map;

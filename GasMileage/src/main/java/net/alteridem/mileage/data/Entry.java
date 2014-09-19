@@ -4,20 +4,15 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
-import android.text.format.DateFormat;
 import android.util.Log;
 
 import net.alteridem.mileage.Convert;
-import net.alteridem.mileage.MileageApplication;
 
 import java.text.Format;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-/**
- * Created by Robert Prouse on 13/06/13.
- */
 public class Entry {
     static final String TAG = Entry.class.getSimpleName();
     static final String TABLE = "entry";
@@ -77,9 +72,9 @@ public class Entry {
      * Gets the string representation of the fillup date in the user's prefered format
      * @return
      */
-    public String getFillupDateString() {
+    public String getFillupDateString(Format df) {
         Date d = getFillup_date();
-        Format df = DateFormat.getDateFormat(MileageApplication.getApplication());
+        //Format df = DateFormat.getDateFormat(MileageApplication.getApplication());
         return df.format(d);
     }
 
@@ -148,28 +143,19 @@ public class Entry {
         return litres / (kilometers / (double) 100);
     }
 
-    public String getVolumeString() {
-        double litres = Convert.volume(getLitres());
-        return String.format("%.3f %s", litres, Convert.getVolumeUnitString());
+    public String getVolumeString(Convert convert) {
+        double litres = convert.volume(getLitres());
+        return String.format("%.3f %s", litres, convert.getVolumeUnitString());
     }
 
-    public String getDistanceString() {
-        double kms = Convert.distance(getKilometers());
-        return String.format("%.1f %s", kms, Convert.getDistanceUnitString());
+    public String getDistanceString(Convert convert) {
+        double kms = convert.distance(getKilometers());
+        return String.format("%.1f %s", kms, convert.getDistanceUnitString());
     }
 
-    public String getMileageString() {
-        double mileage = Convert.mileage(getMileage());
-        return String.format("%.2f %s", mileage, Convert.getMileageUnitString());
-    }
-
-    public void save() {
-        SQLiteDatabase db = MileageApplication.getApplication().getDbHelper().getWritableDatabase();
-        try {
-            save(db);
-        } finally {
-            db.close();
-        }
+    public String getMileageString(Convert convert) {
+        double mileage = convert.mileage(getMileage());
+        return String.format("%.2f %s", mileage, convert.getMileageUnitString());
     }
 
     public void save(SQLiteDatabase db) {
@@ -190,45 +176,30 @@ public class Entry {
         Vehicle.updateLastMileage(db, vehicle_id);
     }
 
-    public static void delete(long id) {
+    public static void delete(SQLiteDatabase db, long id) {
         if( id < 0 ) return; // Nothing to delete
-        SQLiteDatabase db = MileageApplication.getApplication().getDbHelper().getWritableDatabase();
-        try {
-            db.delete(TABLE, C_ID+"=?", new String[] { String.valueOf(id) });
-            Log.d(TAG, String.format("Deleted entry %d", id));
-        } finally {
-            db.close();
-        }
+        db.delete(TABLE, C_ID+"=?", new String[] { String.valueOf(id) });
+        Log.d(TAG, String.format("Deleted entry %d", id));
     }
 
-    public static Entry fetch(long id) {
-        SQLiteDatabase db = MileageApplication.getApplication().getDbHelper().getWritableDatabase();
-        try {
-            Cursor cursor = db.query(TABLE, COLUMNS, C_ID + "=?", new String[]{String.valueOf(id)}, null, null, null);
-            if ( cursor.moveToNext()) {
-                long vehicle_id = cursor.getInt(1);
-                Vehicle vehicle = Vehicle.fetch(db, vehicle_id);
-                return new Entry(cursor, vehicle);
-            }
-        } finally {
-            db.close();
+    public static Entry fetch(SQLiteDatabase db, long id) {
+        Cursor cursor = db.query(TABLE, COLUMNS, C_ID + "=?", new String[]{String.valueOf(id)}, null, null, null);
+        if ( cursor.moveToNext()) {
+            long vehicle_id = cursor.getInt(1);
+            Vehicle vehicle = Vehicle.fetch(db, vehicle_id);
+            return new Entry(cursor, vehicle);
         }
         return null;
     }
 
-    public static List<Entry> fetchAll(long vehicle_id) {
-        SQLiteDatabase db = MileageApplication.getApplication().getDbHelper().getWritableDatabase();
-        try {
-            Vehicle vehicle = Vehicle.fetch(db, vehicle_id);
-            Cursor cursor = db.query(TABLE, COLUMNS, "vehicle_id=?", new String[] { String.valueOf(vehicle_id) }, null, null, ORDER_BY);
-            return createEntryList(cursor, vehicle);
-        } finally {
-            db.close();
-        }
+    public static List<Entry> fetchAll(SQLiteDatabase db, long vehicle_id) {
+        Vehicle vehicle = Vehicle.fetch(db, vehicle_id);
+        Cursor cursor = db.query(TABLE, COLUMNS, "vehicle_id=?", new String[] { String.valueOf(vehicle_id) }, null, null, ORDER_BY);
+        return createEntryList(cursor, vehicle);
     }
 
     private static List<Entry> createEntryList(Cursor cursor, Vehicle vehicle) {
-        List<Entry> entries = new ArrayList<Entry>();
+        List<Entry> entries = new ArrayList<>();
         try {
             while (cursor.moveToNext()) {
                 entries.add(new Entry(cursor, vehicle));

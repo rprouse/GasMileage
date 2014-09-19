@@ -13,6 +13,11 @@ import net.alteridem.mileage.data.Vehicle;
 
 import android.text.format.DateFormat;
 
+import org.androidannotations.annotations.App;
+import org.androidannotations.annotations.Bean;
+import org.androidannotations.annotations.EFragment;
+import org.androidannotations.annotations.sharedpreferences.Pref;
+
 import java.text.Format;
 import java.util.Calendar;
 import java.util.Date;
@@ -24,10 +29,20 @@ import java.util.List;
  * Date: 1/27/13
  * Time: 4:55 PM
  */
+@EFragment
 public class EntryDialog extends DialogFragment implements IDateReceiver, TextView.OnEditorActionListener {
     public interface IEntryDialogListener {
         void onFinishEntryDialog(Vehicle vehicle);
     }
+
+    @App
+    MileageApplication _app;
+
+    @Pref
+    MileagePreferences_ _preferences;
+
+    @Bean
+    Convert _convert;
 
     List<Vehicle> _vehicleList;
     Vehicle _vehicle; // The current vehicle
@@ -43,13 +58,15 @@ public class EntryDialog extends DialogFragment implements IDateReceiver, TextVi
     int _month;
     int _day;
 
-    public EntryDialog(Vehicle vehicle) {
+    public EntryDialog() {
         setDefaultDate();
+    }
+
+    public void setVehicle(Vehicle vehicle) {
         _vehicle = vehicle;
     }
 
-    public EntryDialog(Vehicle vehicle, Entry entry) {
-        _vehicle = vehicle;
+    public void setEntry(Entry entry) {
         _entry = entry;
         _year = entry.getFillup_date().getYear() + 1900;
         _month = entry.getFillup_date().getMonth();
@@ -60,7 +77,7 @@ public class EntryDialog extends DialogFragment implements IDateReceiver, TextVi
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragement_entry_dialog, container);
 
-        _vehicleList = Vehicle.fetchAll();
+        _vehicleList = Vehicle.fetchAll(_app.getDbHelper().getWritableDatabase());
         getDialog().setTitle(R.string.entry_dialog_title);
 
         _vehicleSpinner = (Spinner) view.findViewById(R.id.entry_dialog_vehicle);
@@ -120,8 +137,8 @@ public class EntryDialog extends DialogFragment implements IDateReceiver, TextVi
 
         // Set values when in edit mode
         if (_entry != null) {
-            _liters.setText(String.valueOf(Convert.volume(_entry.getLitres())));
-            _kilometers.setText(String.valueOf(Convert.distance(_entry.getKilometers())));
+            _liters.setText(String.valueOf(_convert.volume(_entry.getLitres())));
+            _kilometers.setText(String.valueOf(_convert.distance(_entry.getKilometers())));
             _note.setText(_entry.getNote());
         }
 
@@ -129,18 +146,17 @@ public class EntryDialog extends DialogFragment implements IDateReceiver, TextVi
     }
 
     private void setDefaultVolumeUnits() {
-        String units = MileageApplication.getSharedPreferences().getString("volume_units", "");
+        String units = _preferences.volume_units().get();
         int pos = 0;
         if (units.equalsIgnoreCase("gal_us"))
             pos = 1;
         if (units.equalsIgnoreCase("gal_imp"))
             pos = 2;
         _litersUnit.setSelection(pos);
-
     }
 
     private void setDefaultDistanceUnits() {
-        String units = MileageApplication.getSharedPreferences().getString("distance_units", "");
+        String units = _preferences.distance_units().get();
         int pos = 0;
         if (units.equalsIgnoreCase("m"))
             pos = 1;
@@ -192,7 +208,7 @@ public class EntryDialog extends DialogFragment implements IDateReceiver, TextVi
         try {
             km = Double.parseDouble(_kilometers.getText().toString());
             if (_kilometersUnit.getSelectedItemPosition() == 1) {
-                km = Convert.milesToKilometers(km);
+                km = _convert.milesToKilometers(km);
             }
         } catch (NumberFormatException nfe) {
         }
@@ -201,9 +217,9 @@ public class EntryDialog extends DialogFragment implements IDateReceiver, TextVi
         try {
             l = Double.parseDouble(_liters.getText().toString());
             if (_litersUnit.getSelectedItemPosition() == 1) {
-                l = Convert.gallonsToLiters(l, Convert.Gallons.US);
+                l = _convert.gallonsToLiters(l, Convert.Gallons.US);
             } else if (_litersUnit.getSelectedItemPosition() == 2) {
-                l = Convert.gallonsToLiters(l, Convert.Gallons.Imperial);
+                l = _convert.gallonsToLiters(l, Convert.Gallons.Imperial);
             }
         } catch (NumberFormatException nfe) {
         }
@@ -226,7 +242,7 @@ public class EntryDialog extends DialogFragment implements IDateReceiver, TextVi
         if ( _entry != null ) {
             entry.setId(_entry.getId());
         }
-        entry.save();
+        entry.save(_app.getDbHelper().getWritableDatabase());
 
         // Call back to the activity
         IEntryDialogListener activity = (IEntryDialogListener) getActivity();

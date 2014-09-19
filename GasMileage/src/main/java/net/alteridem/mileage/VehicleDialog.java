@@ -12,16 +12,23 @@ import android.widget.TextView;
 import net.alteridem.mileage.adapters.VehicleIconAdapter;
 import net.alteridem.mileage.data.Vehicle;
 
+import org.androidannotations.annotations.App;
+import org.androidannotations.annotations.EFragment;
+
 /**
  * Created with IntelliJ IDEA.
  * User: Robert Prouse
  * Date: 31/01/13
  * Time: 8:13 PM
  */
+@EFragment
 public class VehicleDialog extends DialogFragment implements TextView.OnEditorActionListener {
     public interface IVehicleDialogListener {
         void onFinishVehicleDialog(Vehicle vehicle);
     }
+
+    @App
+    MileageApplication _app;
 
     private Spinner _vehicleIcon;
     private EditText _vehicleName;
@@ -31,7 +38,7 @@ public class VehicleDialog extends DialogFragment implements TextView.OnEditorAc
         _vehicle = null;
     }
 
-    public VehicleDialog(Vehicle vehicle) {
+    public void setVehicle(Vehicle vehicle) {
         _vehicle = vehicle;
     }
 
@@ -101,7 +108,7 @@ public class VehicleDialog extends DialogFragment implements TextView.OnEditorAc
             _vehicle.setIconId(icon);
             _vehicle.setName(name);
         }
-        _vehicle.save();
+        _vehicle.save(_app.getDbHelper().getWritableDatabase());
 
         // Call back to the activity
         IVehicleDialogListener activity = (IVehicleDialogListener) getActivity();

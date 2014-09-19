@@ -11,18 +11,26 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import net.alteridem.mileage.Convert;
 import net.alteridem.mileage.R;
 import net.alteridem.mileage.VehicleActivity;
 import net.alteridem.mileage.adapters.EntriesAdapter;
 import net.alteridem.mileage.data.Entry;
 
+import org.androidannotations.annotations.Bean;
+import org.androidannotations.annotations.EFragment;
+
 import java.util.List;
 
 /**
  */
+@EFragment
 public class EntriesFragment extends Fragment {
     //ListView _vehicleEntries;
     EntriesAdapter _adapter;
+
+    @Bean
+    Convert _convert;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -92,7 +100,7 @@ public class EntriesFragment extends Fragment {
         ListView vehicleEntries = (ListView) getActivity().findViewById(R.id.vehicle_entries);
 
         // fill in the grid_item layout
-        _adapter = new EntriesAdapter(this, entries);
+        _adapter = new EntriesAdapter(this, entries, _convert);
         vehicleEntries.setAdapter(_adapter);
     }
 }

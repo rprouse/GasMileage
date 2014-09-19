@@ -1,9 +1,14 @@
 package net.alteridem.mileage;
 
-/**
- * Created by Robert Prouse on 13/06/13.
- */
+import org.androidannotations.annotations.EBean;
+import org.androidannotations.annotations.sharedpreferences.Pref;
+
+@EBean
 public class Convert {
+
+    @Pref
+    MileagePreferences_ _preferences;
+
     private static final double MILES_TO_KM = 0.621371192;
     private static final double US_GAL_TO_L = 0.264172052;
     private static final double IMP_GAL_TO_L = 0.219969157;
@@ -13,33 +18,33 @@ public class Convert {
         Imperial
     }
 
-    public static double kilometersToMiles(double kilometers) {
+    public double kilometersToMiles(double kilometers) {
         return kilometers * MILES_TO_KM;
     }
 
-    public static double milesToKilometers(double miles) {
+    public double milesToKilometers(double miles) {
         return miles / MILES_TO_KM;
     }
 
-    public static double litersToGallons(double liters, Gallons units) {
+    public double litersToGallons(double liters, Gallons units) {
 
         return liters * gallonsToLiters(units);
     }
 
-    public static double gallonsToLiters(double gallons, Gallons units) {
+    public double gallonsToLiters(double gallons, Gallons units) {
         return gallons / gallonsToLiters(units);
     }
 
-    public static double mileageFromMetric(double lp100km, Gallons units) {
+    public double mileageFromMetric(double lp100km, Gallons units) {
         return (MILES_TO_KM / gallonsToLiters(units)) / lp100km * 100;
     }
 
-    private static double gallonsToLiters(Gallons units) {
+    private double gallonsToLiters(Gallons units) {
         return units == Gallons.US ? US_GAL_TO_L : IMP_GAL_TO_L;
     }
 
-    public static double mileage(double mileage) {
-        String units = MileageApplication.getSharedPreferences().getString("mileage_units", "");
+    public double mileage(double mileage) {
+        String units =_preferences.mileage_units().get();
         if (units.equalsIgnoreCase("kmpl"))
             return 100 / mileage;
         if (units.equalsIgnoreCase("mpg_us"))
@@ -50,8 +55,8 @@ public class Convert {
             return mileage;
     }
 
-    public static double volume(double litres) {
-        String units = MileageApplication.getSharedPreferences().getString("volume_units", "");
+    public double volume(double litres) {
+        String units = _preferences.volume_units().get();
         if (units.equalsIgnoreCase("gal_us"))
             return litersToGallons(litres, Gallons.US);
         if (units.equalsIgnoreCase("gal_imp"))
@@ -59,15 +64,15 @@ public class Convert {
         return litres;
     }
 
-    public static double distance(double kms) {
-        String units = MileageApplication.getSharedPreferences().getString("distance_units", "");
+    public double distance(double kms) {
+        String units = _preferences.distance_units().get();
         if (units.equalsIgnoreCase("m"))
             return kilometersToMiles(kms);
         return kms;
     }
 
-    public static String getMileageUnitString() {
-        String units = MileageApplication.getSharedPreferences().getString("mileage_units", "");
+    public String getMileageUnitString() {
+        String units = _preferences.mileage_units().get();
         if (units.equalsIgnoreCase("kmpl"))
             return "km/L";
         if (units.equalsIgnoreCase("mpg_us"))
@@ -77,8 +82,8 @@ public class Convert {
         return "L/100km";
     }
 
-    public static String getVolumeUnitString() {
-        String units = MileageApplication.getSharedPreferences().getString("volume_units", "");
+    public String getVolumeUnitString() {
+        String units = _preferences.volume_units().get();
         if (units.equalsIgnoreCase("gal_us"))
             return "Gal (US)";
         if (units.equalsIgnoreCase("gal_imp"))
@@ -86,8 +91,8 @@ public class Convert {
         return "L";
     }
 
-    public static String getDistanceUnitString() {
-        String units = MileageApplication.getSharedPreferences().getString("distance_units", "");
+    public String getDistanceUnitString() {
+        String units = _preferences.distance_units().get();
         if (units.equalsIgnoreCase("m"))
             return "Miles";
         return "km";

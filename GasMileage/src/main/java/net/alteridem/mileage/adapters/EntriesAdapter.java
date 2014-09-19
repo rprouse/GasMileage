@@ -2,6 +2,7 @@ package net.alteridem.mileage.adapters;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.text.format.DateFormat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,10 +11,12 @@ import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.TextView;
 
+import net.alteridem.mileage.Convert;
 import net.alteridem.mileage.R;
 import net.alteridem.mileage.data.Entry;
 import net.alteridem.mileage.fragments.EntriesFragment;
 
+import java.text.Format;
 import java.util.List;
 
 /**
@@ -25,12 +28,14 @@ public class EntriesAdapter extends BaseAdapter implements ListAdapter {
     private Context _context;
     private EntriesFragment _fragment;
     private LayoutInflater _inflater;
+    private Convert _convert;
 
-    public EntriesAdapter( EntriesFragment fragment, List<Entry> entries ){
+    public EntriesAdapter( EntriesFragment fragment, List<Entry> entries, Convert convert ){
         _fragment = fragment;
         _context = _fragment.getActivity();
         _entries = entries;
         _inflater = (LayoutInflater) _context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        _convert = convert;
     }
 
     @Override
@@ -67,10 +72,11 @@ public class EntriesAdapter extends BaseAdapter implements ListAdapter {
             TextView liters = (TextView) view.findViewById(R.id.entry_liters);
             TextView mileage = (TextView) view.findViewById(R.id.entry_mileage);
 
-            date.setText(entry.getFillupDateString());
-            kilometers.setText(entry.getDistanceString());
-            liters.setText(entry.getVolumeString());
-            mileage.setText(entry.getMileageString());
+            Format df = DateFormat.getDateFormat(_context);
+            date.setText(entry.getFillupDateString(df));
+            kilometers.setText(entry.getDistanceString(_convert));
+            liters.setText(entry.getVolumeString(_convert));
+            mileage.setText(entry.getMileageString(_convert));
             color.setBackgroundColor(entry.getColor());
 
             // Issue #27: Add notes to entries
@@ -84,8 +90,9 @@ public class EntriesAdapter extends BaseAdapter implements ListAdapter {
                 public void onClick(View view) {
                     Entry entry = (Entry) view.getTag();
                     if ( entry != null ) {
+                        Format df = DateFormat.getDateFormat(_context);
                         new AlertDialog.Builder(_context)
-                                .setTitle(entry.getFillupDateString())
+                                .setTitle(entry.getFillupDateString(df))
                                 .setMessage(entry.getNote())
                                 .setPositiveButton(R.string.ok, null)
                                 .show();

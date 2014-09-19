@@ -6,14 +6,10 @@ import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
 import net.alteridem.mileage.Convert;
-import net.alteridem.mileage.MileageApplication;
 
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by Robert Prouse on 13/06/13.
- */
 public class Vehicle {
 
     static final String TAG = Vehicle.class.getSimpleName();
@@ -103,11 +99,11 @@ public class Vehicle {
         return VehicleIcon.getDrawableForId(icon);
     }
 
-    public List<Entry> getEntries() {
+    public List<Entry> getEntries(SQLiteDatabase db) {
         if (this.id < 0) {
-            entries = new ArrayList<Entry>();
+            entries = new ArrayList<>();
         } else {
-            entries = Entry.fetchAll(this.id);
+            entries = Entry.fetchAll(db, this.id);
         }
         return this.entries;
     }
@@ -120,29 +116,20 @@ public class Vehicle {
         return worstMileage;
     }
 
-    public double getBestMileage() {
-        return Convert.mileage(bestMileage);
+    public double getBestMileage(Convert convert) {
+        return convert.mileage(bestMileage);
     }
 
-    public double getWorstMileage() {
-        return Convert.mileage(worstMileage);
+    public double getWorstMileage(Convert convert) {
+        return convert.mileage(worstMileage);
     }
 
-    public double getAverageMileage() {
-        return Convert.mileage(averageMileage);
+    public double getAverageMileage(Convert convert) {
+        return convert.mileage(averageMileage);
     }
 
-    public double getLastMileage() {
-        return Convert.mileage(lastMileage);
-    }
-
-    public void save() {
-        SQLiteDatabase db = MileageApplication.getApplication().getDbHelper().getWritableDatabase();
-        try {
-            save(db);
-        } finally {
-            db.close();
-        }
+    public double getLastMileage(Convert convert) {
+        return convert.mileage(lastMileage);
     }
 
     public void save(SQLiteDatabase db) {
@@ -163,13 +150,8 @@ public class Vehicle {
     /**
      * Updates the last mileage value for this vehicle
      */
-    public void updateLastMileage() {
-        SQLiteDatabase db = MileageApplication.getApplication().getDbHelper().getWritableDatabase();
-        try {
-            Vehicle.updateLastMileage(db, getId());
-        } finally {
-            db.close();
-        }
+    public void updateLastMileage(SQLiteDatabase db) {
+        Vehicle.updateLastMileage(db, getId());
     }
 
     /**
@@ -182,12 +164,8 @@ public class Vehicle {
         // Calculate the last mileage
         double mileage = 0;
         Cursor cursor = db.rawQuery(QUERY_LAST_MILEAGE, new String[]{String.valueOf(id)});
-        try {
-            if (cursor.moveToNext()) {
-                mileage = cursor.getDouble(0);
-            }
-        } finally {
-            cursor.close();
+        if (cursor.moveToNext()) {
+            mileage = cursor.getDouble(0);
         }
         updateLastMileage( db, id, mileage );
     }
@@ -200,68 +178,32 @@ public class Vehicle {
         Log.d(TAG, String.format("Updated last mileage for vehicle %d", id));
     }
 
-    public static List<Vehicle> fetchAll() {
-        List<Vehicle> vehicles = new ArrayList<Vehicle>();
-        SQLiteDatabase db = MileageApplication.getApplication().getDbHelper().getWritableDatabase();
-        try {
-            Cursor cursor = db.rawQuery(QUERY_ALL, new String[]{});
-            try {
-                while (cursor.moveToNext()) {
-                    vehicles.add(new Vehicle(cursor));
-                }
-            } finally {
-                cursor.close();
-            }
-        } finally {
-            db.close();
+    public static List<Vehicle> fetchAll(SQLiteDatabase db) {
+        List<Vehicle> vehicles = new ArrayList<>();
+        Cursor cursor = db.rawQuery(QUERY_ALL, new String[]{});
+        while (cursor.moveToNext()) {
+            vehicles.add(new Vehicle(cursor));
         }
         return vehicles;
     }
 
-    public static Vehicle fetch(long id) {
-        SQLiteDatabase db = MileageApplication.getApplication().getDbHelper().getWritableDatabase();
-        try {
-            return fetch(db, id);
-        } finally {
-            db.close();
-        }
-    }
-
     public static Vehicle fetch(SQLiteDatabase db, long id) {
         Cursor cursor = db.rawQuery(QUERY_ONE, new String[]{String.valueOf(id)});
-        try {
-            if (cursor.moveToFirst()) {
-                return new Vehicle(cursor);
-            }
-        } finally {
-            cursor.close();
+        if (cursor.moveToFirst()) {
+            return new Vehicle(cursor);
         }
         return null;
     }
     
-    public void delete() {
-        SQLiteDatabase db = MileageApplication.getApplication().getDbHelper().getWritableDatabase();
-        try {
-            db.delete( TABLE, C_ID+"=?", new String[]{String.valueOf(id)});
-            db.delete( Entry.TABLE, Entry.C_VEHICLE_ID + "=?", new String[]{String.valueOf(id)});
-        } finally {
-            db.close();
-        }        
+    public void delete(SQLiteDatabase db) {
+        db.delete( TABLE, C_ID+"=?", new String[]{String.valueOf(id)});
+        db.delete( Entry.TABLE, Entry.C_VEHICLE_ID + "=?", new String[]{String.valueOf(id)});
     }
 
-    public void reload() {
-        SQLiteDatabase db = MileageApplication.getApplication().getDbHelper().getWritableDatabase();
-        try {
-            Cursor cursor = db.rawQuery(QUERY_ONE, new String[]{String.valueOf(id)});
-            try {
-                if (cursor.moveToFirst()) {
-                    loadFromCursor(cursor);
-                }
-            } finally {
-                cursor.close();
-            }
-        } finally {
-            db.close();
+    public void reload(SQLiteDatabase db) {
+        Cursor cursor = db.rawQuery(QUERY_ONE, new String[]{String.valueOf(id)});
+        if (cursor.moveToFirst()) {
+            loadFromCursor(cursor);
         }
     }
 
