@@ -24,9 +24,13 @@ import net.alteridem.mileage.data.Vehicle;
 import net.alteridem.mileage.fragments.EntriesFragment;
 import net.alteridem.mileage.fragments.StatisticsFragment;
 
+import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.EActivity;
+
 import java.util.ArrayList;
 import java.util.List;
 
+@EActivity(R.layout.activity_vehicle)
 public class VehicleActivity extends Activity implements VehicleDialog.IVehicleDialogListener, EntryDialog.IEntryDialogListener {
 
     /**
@@ -43,11 +47,8 @@ public class VehicleActivity extends Activity implements VehicleDialog.IVehicleD
     Vehicle _currentVehicle;
     Boolean _landscape;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_vehicle);
-
+    @AfterViews
+    void init() {
         _application = (MileageApplication)getApplication();
 
         // Subscribe to the preferences changing
