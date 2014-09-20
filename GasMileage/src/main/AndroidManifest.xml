@@ -22,12 +22,20 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="net.alteridem.mileage.MileagePreferencesActivity"
-            android:label="@string/prefs_title" >
+            android:name=".MileagePreferencesActivity_"
+            android:label="@string/prefs_title"
+            android:parentActivityName=".VehicleActivity_" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".VehicleActivity_" /> >
         </activity>
         <activity
             android:name=".HelpActivity_"
-            android:label="@string/help_title" >
+            android:label="@string/help_title"
+            android:parentActivityName=".VehicleActivity_" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".VehicleActivity_" /> >
         </activity>
     </application>
 

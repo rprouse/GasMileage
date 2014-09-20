@@ -98,5 +98,6 @@
     <string name="entry_activity_date">Date:</string>
     <string name="entry_activity_kilometers">Distance:</string>
     <string name="entry_activity_liters">Fuel:</string>
+    <string name="menu_rate">Rate App</string>
 
 </resources>

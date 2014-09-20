@@ -20,6 +20,7 @@ import net.alteridem.mileage.fragments.EntriesFragment;
 import net.alteridem.mileage.fragments.EntriesFragment_;
 import net.alteridem.mileage.fragments.StatisticsFragment;
 import net.alteridem.mileage.fragments.StatisticsFragment_;
+import net.alteridem.mileage.utilities.PlayStore;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.App;
@@ -102,12 +103,14 @@ public class VehicleActivity extends Activity implements VehicleDialog.IVehicleD
 
     @OptionsItem(R.id.menu_help)
     void showHelp() {
-        startActivity( new Intent( this, HelpActivity_.class ) );
+        startActivity(new Intent(this, HelpActivity_.class));
+        overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
     }
 
     @OptionsItem(R.id.menu_settings)
     void showSettings() {
-        startActivity( new Intent( this, MileagePreferencesActivity.class ) );
+        startActivity( new Intent( this, MileagePreferencesActivity_.class ) );
+        overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
     }
 
     @OptionsItem(R.id.menu_fill_up)
@@ -160,6 +163,12 @@ public class VehicleActivity extends Activity implements VehicleDialog.IVehicleD
                     .show();
         }
         Log.d(TAG, "deleteVehicle");
+    }
+
+    @OptionsItem(R.id.menu_rate)
+    void rateApplication() {
+        PlayStore.rateApp(this);
+        overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
     }
 
     public Vehicle getCurrentVehicle()

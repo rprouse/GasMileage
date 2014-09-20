@@ -15,6 +15,10 @@
     <item android:id="@+id/menu_delete_vehicle"
           android:title="@string/menu_delete_vehicle" />
 
+    <item android:id="@+id/menu_rate"
+        android:title="@string/menu_rate"
+        android:showAsAction="never" />
+
     <item android:id="@+id/menu_settings"
           android:title="@string/menu_settings"
           android:icon="@drawable/ic_menu_preferences"
