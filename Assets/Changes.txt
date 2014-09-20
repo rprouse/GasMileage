@@ -2,6 +2,7 @@ Version 2.0
 
 - Removed Flurry tracking
 - Application no longer requires any permissions
+- Added the ability to rate the application
 
 Version 1.3
 
