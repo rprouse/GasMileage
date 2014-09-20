@@ -24,7 +24,7 @@ public class ResetOdometerDialog extends DialogFragment {
     }
 
     @Click(R.id.reset_dialog_ok)
-    private void closeDialog() {
+    void closeDialog() {
         if ( _checkBox.isChecked() ) {
             _preferences.show_reset_odometer().put(false);
         }

@@ -1,9 +1,14 @@
 # IDEA Ignores
-.idea/tasks.xml
-.idea/workspace.xml
-local.properties
+build.gradle
+/local.properties
+/.idea/tasks.xml
+/.idea/workspace.xml
+/.idea/libraries
+.DS_Store
+Thumbs.db
 
 # Generic Android ignores
 GasMileage/build
 taskArtifacts
 /GasMileage/*.apk
+/build

@@ -3,7 +3,6 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/GasMileage.iml" filepath="$PROJECT_DIR$/GasMileage.iml" />
-      <module fileurl="file://$PROJECT_DIR$/GasMileage/GasMileage-GasMileage.iml" filepath="$PROJECT_DIR$/GasMileage/GasMileage-GasMileage.iml" />
       <module fileurl="file://$PROJECT_DIR$/GasMileageProject.iml" filepath="$PROJECT_DIR$/GasMileageProject.iml" />
     </modules>
   </component>

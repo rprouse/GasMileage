@@ -40,13 +40,13 @@ apt {
 }
 
 android {
-    compileSdkVersion 19
-    buildToolsVersion '19.1'
+    compileSdkVersion 20
+    buildToolsVersion '20'
 
     defaultConfig {
         applicationId "net.alteridem.mileage"
         minSdkVersion 15
-        targetSdkVersion 19
+        targetSdkVersion 20
         versionCode 5
         versionName "2.0"
     }

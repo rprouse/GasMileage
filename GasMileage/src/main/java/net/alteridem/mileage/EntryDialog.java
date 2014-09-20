@@ -1,21 +1,27 @@
 package net.alteridem.mileage;
 
 import android.app.DialogFragment;
-import android.os.Bundle;
-import android.view.*;
+import android.text.format.DateFormat;
+import android.view.KeyEvent;
+import android.view.View;
+import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
-import android.widget.*;
+import android.widget.ArrayAdapter;
+import android.widget.EditText;
+import android.widget.Spinner;
+import android.widget.TextView;
 
 import net.alteridem.mileage.adapters.VehicleSpinnerAdapter;
-import net.alteridem.mileage.fragments.DatePickerFragment;
 import net.alteridem.mileage.data.Entry;
 import net.alteridem.mileage.data.Vehicle;
+import net.alteridem.mileage.fragments.DatePickerFragment;
 
-import android.text.format.DateFormat;
-
+import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.App;
 import org.androidannotations.annotations.Bean;
+import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EFragment;
+import org.androidannotations.annotations.ViewById;
 import org.androidannotations.annotations.sharedpreferences.Pref;
 
 import java.text.Format;
@@ -23,13 +29,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-/**
- * Created with IntelliJ IDEA.
- * User: Robert Prouse
- * Date: 1/27/13
- * Time: 4:55 PM
- */
-@EFragment
+@EFragment(R.layout.fragement_entry_dialog)
 public class EntryDialog extends DialogFragment implements IDateReceiver, TextView.OnEditorActionListener {
     public interface IEntryDialogListener {
         void onFinishEntryDialog(Vehicle vehicle);
@@ -47,13 +47,15 @@ public class EntryDialog extends DialogFragment implements IDateReceiver, TextVi
     List<Vehicle> _vehicleList;
     Vehicle _vehicle; // The current vehicle
     Entry _entry; // The current entry, this is null if new
-    Spinner _vehicleSpinner;
-    EditText _kilometers;
-    Spinner _kilometersUnit;
-    EditText _liters;
-    Spinner _litersUnit;
-    TextView _datePicker;
-    TextView _note;
+
+    @ViewById(R.id.entry_dialog_vehicle)         Spinner  _vehicleSpinner;
+    @ViewById(R.id.entry_dialog_kilometers)      EditText _kilometers;
+    @ViewById(R.id.entry_dialog_kilometers_unit) Spinner  _kilometersUnit;
+    @ViewById(R.id.entry_dialog_liters)          EditText _liters;
+    @ViewById(R.id.entry_dialog_liters_unit)     Spinner  _litersUnit;
+    @ViewById(R.id.entry_dialog_date)            TextView _datePicker;
+    @ViewById(R.id.entry_dialog_note)            TextView _note;
+
     int _year;
     int _month;
     int _day;
@@ -73,59 +75,23 @@ public class EntryDialog extends DialogFragment implements IDateReceiver, TextVi
         _day = entry.getFillup_date().getDay() + 1;
     }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragement_entry_dialog, container);
-
+    @AfterViews
+    void initialize() {
         _vehicleList = Vehicle.fetchAll(_app.getDbHelper().getWritableDatabase());
         getDialog().setTitle(R.string.entry_dialog_title);
 
-        _vehicleSpinner = (Spinner) view.findViewById(R.id.entry_dialog_vehicle);
         ArrayAdapter adapter_veh = new VehicleSpinnerAdapter(getActivity(), _vehicleList);
         _vehicleSpinner.setAdapter(adapter_veh);
-
-        _kilometers = (EditText) view.findViewById(R.id.entry_dialog_kilometers);
-        _kilometersUnit = (Spinner) view.findViewById(R.id.entry_dialog_kilometers_unit);
 
         ArrayAdapter adapter_km = ArrayAdapter.createFromResource(getActivity(), R.array.distance_units, android.R.layout.simple_spinner_item);
         adapter_km.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         _kilometersUnit.setAdapter(adapter_km);
 
-        _liters = (EditText) view.findViewById(R.id.entry_dialog_liters);
-        _litersUnit = (Spinner) view.findViewById(R.id.entry_dialog_liters_unit);
-
         ArrayAdapter adapter_l = ArrayAdapter.createFromResource(getActivity(), R.array.volume_units, android.R.layout.simple_spinner_item);
         adapter_l.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         _litersUnit.setAdapter(adapter_l);
 
-        _datePicker = (TextView) view.findViewById(R.id.entry_dialog_date);
         setDate();
-
-        _datePicker.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                showDatePickerDialog(view);
-            }
-        });
-
-        _note = (TextView) view.findViewById(R.id.entry_dialog_note);
-
-        Button ok = (Button) view.findViewById(R.id.entry_dialog_ok);
-        ok.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                closeDialog();
-            }
-        });
-
-        Button cancel = (Button) view.findViewById(R.id.entry_dialog_cancel);
-        cancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dismiss();
-            }
-        });
-
         switchToVehicle();
         setDefaultVolumeUnits();
         setDefaultDistanceUnits();
@@ -141,8 +107,6 @@ public class EntryDialog extends DialogFragment implements IDateReceiver, TextVi
             _kilometers.setText(String.valueOf(_convert.distance(_entry.getKilometers())));
             _note.setText(_entry.getNote());
         }
-
-        return view;
     }
 
     private void setDefaultVolumeUnits() {
@@ -188,7 +152,8 @@ public class EntryDialog extends DialogFragment implements IDateReceiver, TextVi
         _day = c.get(Calendar.DAY_OF_MONTH);
     }
 
-    private void showDatePickerDialog(View v) {
+    @Click(R.id.entry_dialog_date)
+    void showDatePickerDialog(View v) {
         DatePickerFragment newFragment = new DatePickerFragment();
         newFragment.setReceiver(this);
         newFragment.show(getFragmentManager(), "datePicker");
@@ -203,7 +168,8 @@ public class EntryDialog extends DialogFragment implements IDateReceiver, TextVi
         return false;
     }
 
-    private void closeDialog() {
+    @Click(R.id.entry_dialog_ok)
+    void closeDialog() {
         Vehicle v = (Vehicle) _vehicleSpinner.getSelectedItem();
         double km = 0;
         try {
@@ -249,6 +215,11 @@ public class EntryDialog extends DialogFragment implements IDateReceiver, TextVi
         IEntryDialogListener activity = (IEntryDialogListener) getActivity();
         activity.onFinishEntryDialog(v);
         this.dismiss();
+    }
+
+    @Click(R.id.entry_dialog_cancel)
+    void cancel() {
+        dismiss();
     }
 
     @Override
