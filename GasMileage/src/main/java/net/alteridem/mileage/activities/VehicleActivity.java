@@ -1,4 +1,4 @@
-package net.alteridem.mileage;
+package net.alteridem.mileage.activities;
 
 import android.app.ActionBar;
 import android.app.Activity;
@@ -13,6 +13,16 @@ import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
+import net.alteridem.mileage.dialogs.EntryDialog;
+import net.alteridem.mileage.dialogs.ResetOdometerDialog;
+import net.alteridem.mileage.dialogs.VehicleDialog;
+import net.alteridem.mileage.dialogs.VehicleDialog_;
+import net.alteridem.mileage.MileageApplication;
+import net.alteridem.mileage.MileagePreferences_;
+import net.alteridem.mileage.R;
+import net.alteridem.mileage.TabListener;
+import net.alteridem.mileage.dialogs.EntryDialog_;
+import net.alteridem.mileage.dialogs.ResetOdometerDialog_;
 import net.alteridem.mileage.adapters.VehicleSpinnerAdapter;
 import net.alteridem.mileage.data.Entry;
 import net.alteridem.mileage.data.Vehicle;

@@ -6,7 +6,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.util.Log;
 
-import net.alteridem.mileage.Convert;
+import net.alteridem.mileage.utilities.Convert;
 
 import java.text.Format;
 import java.util.ArrayList;

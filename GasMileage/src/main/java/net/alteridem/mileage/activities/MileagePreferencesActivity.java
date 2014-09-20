@@ -1,7 +1,9 @@
-package net.alteridem.mileage;
+package net.alteridem.mileage.activities;
 
 import android.os.Bundle;
 import android.preference.PreferenceActivity;
+
+import net.alteridem.mileage.R;
 
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.OptionsItem;

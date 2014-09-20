@@ -3,23 +3,20 @@ package net.alteridem.mileage.fragments;
 import android.app.Fragment;
 import android.os.Bundle;
 import android.view.ContextMenu;
-import android.view.LayoutInflater;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
-import net.alteridem.mileage.Convert;
+import net.alteridem.mileage.utilities.Convert;
 import net.alteridem.mileage.R;
-import net.alteridem.mileage.VehicleActivity;
+import net.alteridem.mileage.activities.VehicleActivity;
 import net.alteridem.mileage.adapters.EntriesAdapter;
 import net.alteridem.mileage.data.Entry;
 
 import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EFragment;
-import org.androidannotations.annotations.OptionsMenu;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package net.alteridem.mileage;
+package net.alteridem.mileage.dialogs;
 
 import android.app.DialogFragment;
 import android.text.format.DateFormat;
@@ -11,10 +11,15 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import net.alteridem.mileage.IDateReceiver;
+import net.alteridem.mileage.MileageApplication;
+import net.alteridem.mileage.MileagePreferences_;
+import net.alteridem.mileage.R;
 import net.alteridem.mileage.adapters.VehicleSpinnerAdapter;
 import net.alteridem.mileage.data.Entry;
 import net.alteridem.mileage.data.Vehicle;
 import net.alteridem.mileage.fragments.DatePickerFragment;
+import net.alteridem.mileage.utilities.Convert;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.App;

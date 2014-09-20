@@ -1,4 +1,4 @@
-package net.alteridem.mileage;
+package net.alteridem.mileage.dialogs;
 
 import android.app.DialogFragment;
 import android.view.KeyEvent;
@@ -8,6 +8,8 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import net.alteridem.mileage.MileageApplication;
+import net.alteridem.mileage.R;
 import net.alteridem.mileage.adapters.VehicleIconAdapter;
 import net.alteridem.mileage.data.Vehicle;
 

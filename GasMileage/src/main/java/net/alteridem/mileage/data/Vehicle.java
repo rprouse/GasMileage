@@ -5,7 +5,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
-import net.alteridem.mileage.Convert;
+import net.alteridem.mileage.utilities.Convert;
 
 import java.util.ArrayList;
 import java.util.List;

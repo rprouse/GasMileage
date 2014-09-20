@@ -1,7 +1,10 @@
-package net.alteridem.mileage;
+package net.alteridem.mileage.dialogs;
 
 import android.app.DialogFragment;
 import android.widget.CheckBox;
+
+import net.alteridem.mileage.MileagePreferences_;
+import net.alteridem.mileage.R;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;

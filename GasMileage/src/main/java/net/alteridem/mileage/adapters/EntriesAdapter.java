@@ -11,7 +11,7 @@ import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.TextView;
 
-import net.alteridem.mileage.Convert;
+import net.alteridem.mileage.utilities.Convert;
 import net.alteridem.mileage.R;
 import net.alteridem.mileage.data.Entry;
 import net.alteridem.mileage.fragments.EntriesFragment;

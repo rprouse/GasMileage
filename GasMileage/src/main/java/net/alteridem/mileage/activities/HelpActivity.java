@@ -1,7 +1,9 @@
-package net.alteridem.mileage;
+package net.alteridem.mileage.activities;
 
 import android.app.Activity;
 import android.widget.TextView;
+
+import net.alteridem.mileage.R;
 
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.FromHtml;

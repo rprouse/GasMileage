@@ -1,4 +1,6 @@
-package net.alteridem.mileage;
+package net.alteridem.mileage.utilities;
+
+import net.alteridem.mileage.MileagePreferences_;
 
 import org.androidannotations.annotations.EBean;
 import org.androidannotations.annotations.sharedpreferences.Pref;

@@ -13,29 +13,28 @@
         android:label="@string/app_name"
         android:theme="@style/Theme.Gasmileage" >
         <activity
-            android:name=".VehicleActivity_"
+            android:name=".activities.VehicleActivity_"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
-            android:name=".MileagePreferencesActivity_"
+            android:name=".activities.MileagePreferencesActivity_"
             android:label="@string/prefs_title"
-            android:parentActivityName=".VehicleActivity_" >
+            android:parentActivityName=".activities.VehicleActivity_" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".VehicleActivity_" /> >
+                android:value=".activities.VehicleActivity_" /> >
         </activity>
         <activity
-            android:name=".HelpActivity_"
+            android:name=".activities.HelpActivity_"
             android:label="@string/help_title"
-            android:parentActivityName=".VehicleActivity_" >
+            android:parentActivityName=".activities.VehicleActivity_" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".VehicleActivity_" /> >
+                android:value=".activities.VehicleActivity_" /> >
         </activity>
     </application>
 

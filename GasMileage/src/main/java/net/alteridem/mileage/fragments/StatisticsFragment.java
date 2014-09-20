@@ -6,9 +6,9 @@ import android.os.Bundle;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 
-import net.alteridem.mileage.Convert;
+import net.alteridem.mileage.utilities.Convert;
 import net.alteridem.mileage.R;
-import net.alteridem.mileage.VehicleActivity;
+import net.alteridem.mileage.activities.VehicleActivity;
 import net.alteridem.mileage.data.Vehicle;
 
 import org.androidannotations.annotations.Bean;
