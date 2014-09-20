@@ -63,11 +63,6 @@
       <sourceFolder url="file://$MODULE_DIR$/GasMileage/src/androidTest/java" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/GasMileage/src/androidTest/jni" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/GasMileage/src/androidTest/rs" isTestSource="true" />
-      <excludeFolder url="file://$MODULE_DIR$/GasMileage/build/apk" />
-      <excludeFolder url="file://$MODULE_DIR$/GasMileage/build/assets" />
-      <excludeFolder url="file://$MODULE_DIR$/GasMileage/build/classes" />
-      <excludeFolder url="file://$MODULE_DIR$/GasMileage/build/dependency-cache" />
-      <excludeFolder url="file://$MODULE_DIR$/GasMileage/build/incremental" />
       <excludeFolder url="file://$MODULE_DIR$/GasMileage/build/intermediates/assets" />
       <excludeFolder url="file://$MODULE_DIR$/GasMileage/build/intermediates/bundles" />
       <excludeFolder url="file://$MODULE_DIR$/GasMileage/build/intermediates/classes" />
@@ -87,12 +82,7 @@
       <excludeFolder url="file://$MODULE_DIR$/GasMileage/build/intermediates/res" />
       <excludeFolder url="file://$MODULE_DIR$/GasMileage/build/intermediates/rs" />
       <excludeFolder url="file://$MODULE_DIR$/GasMileage/build/intermediates/symbols" />
-      <excludeFolder url="file://$MODULE_DIR$/GasMileage/build/libs" />
-      <excludeFolder url="file://$MODULE_DIR$/GasMileage/build/manifests" />
       <excludeFolder url="file://$MODULE_DIR$/GasMileage/build/outputs" />
-      <excludeFolder url="file://$MODULE_DIR$/GasMileage/build/res" />
-      <excludeFolder url="file://$MODULE_DIR$/GasMileage/build/source" />
-      <excludeFolder url="file://$MODULE_DIR$/GasMileage/build/symbols" />
     </content>
     <orderEntry type="jdk" jdkName="Android API 20 Platform" jdkType="Android SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
