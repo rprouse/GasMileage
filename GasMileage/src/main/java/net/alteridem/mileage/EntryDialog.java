@@ -21,6 +21,7 @@ import org.androidannotations.annotations.App;
 import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EFragment;
+import org.androidannotations.annotations.EditorAction;
 import org.androidannotations.annotations.ViewById;
 import org.androidannotations.annotations.sharedpreferences.Pref;
 
@@ -30,7 +31,7 @@ import java.util.Date;
 import java.util.List;
 
 @EFragment(R.layout.fragement_entry_dialog)
-public class EntryDialog extends DialogFragment implements IDateReceiver, TextView.OnEditorActionListener {
+public class EntryDialog extends DialogFragment implements IDateReceiver {
     public interface IEntryDialogListener {
         void onFinishEntryDialog(Vehicle vehicle);
     }
@@ -99,7 +100,6 @@ public class EntryDialog extends DialogFragment implements IDateReceiver, TextVi
         // Show the soft keyboard automatically
         _kilometers.requestFocus();
         getDialog().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
-        _liters.setOnEditorActionListener(this);
 
         // Set values when in edit mode
         if (_entry != null) {
@@ -159,13 +159,11 @@ public class EntryDialog extends DialogFragment implements IDateReceiver, TextVi
         newFragment.show(getFragmentManager(), "datePicker");
     }
 
-    @Override
-    public boolean onEditorAction(TextView textView, int actionId, KeyEvent event) {
+    @EditorAction(R.id.entry_dialog_liters)
+    void onEditorAction(TextView textView, int actionId, KeyEvent event) {
         if (EditorInfo.IME_ACTION_DONE == actionId) {
             closeDialog();
-            return true;
         }
-        return false;
     }
 
     @Click(R.id.entry_dialog_ok)
