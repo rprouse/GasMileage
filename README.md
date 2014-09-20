@@ -2,7 +2,7 @@ Gas Mileage calculates your vehicle's fuel economy using your trip odometer. Tra
 
 Other mileage tracking calculators require you to add entries every time you fill up and if you forget, it is difficult to catch up. Gas Mileage is different, just remember to reset your trip odometer every time you fill up your tank and then add entries when you remember.
 
-Download on (Google Play](https://play.google.com/store/apps/details?id=net.alteridem.mileage)
+Download on [Google Play](https://play.google.com/store/apps/details?id=net.alteridem.mileage)
 
 ### Features ###
 
